@@ -14,10 +14,10 @@ sigma <- 0.1
 
 ## simulate short rate paths
 
-n  <- 10^3    # monte carlo simulation paths 
-endTime  <- 10
+n  <- 10^5    # monte carlo simulation paths 
+end_time  <- 10
 dt <- 1 / 12
-time_vector <- seq(0, endTime, by = dt)
+time_vector <- seq(0, end_time, by = dt)
 m  <- length(time_vector)      # subintervals
 
 
@@ -28,9 +28,9 @@ x[1,] <- x0
 
 for (k in 1:n) {
   for (i in 2:m) {
-    dx <- mu * x[i - 1, k] * dt + x[i - 1, k] * sigma * sqrt(dt) * rnorm(1,0,1)
-    x[i, k] <- x[i - 1, k] + dx
-    # x[i, k] <- x0 * exp((mu - 0.5 * sigma ^ 2) * time_vector[i] + sigma * sqrt(time_vector[i]) * rnorm(1, 0, 1))
+    # dx <- mu * x[i - 1, k] * dt + x[i - 1, k] * sigma * sqrt(dt) * rnorm(1,0,1)
+    # x[i, k] <- x[i - 1, k] + dx
+    x[i, k] <- x0 * exp((mu - 0.5 * sigma ^ 2) * time_vector[i] + sigma * sqrt(time_vector[i]) * rnorm(1, 0, 1))
   }
 }
 
@@ -100,9 +100,9 @@ lines(sort(x[2,]), density, lwd = 2)
 ## does the simulation method matter? YES! x_closed_form is wrong because W(t_i) and W(t_{i-1}) are not independent. But in the simulation scheme below we assume independence through the independent normal rv's, and hence the resulting path for x_closed_form is incorrect 
 
 n  <- 1    # monte carlo simulation paths 
-endTime  <- 10
+end_time  <- 10
 dt <- 1 / 12
-time_vector <- seq(0, endTime, by = dt)
+time_vector <- seq(0, end_time, by = dt)
 m  <- length(time_vector)     
 
 x_closed_form <- x_increment <- x_closed_form_increment <- matrix(NA, m, n)
@@ -123,3 +123,36 @@ points(time_vector, x_increment[, 1], type = 'l', col = 'red')
 points(time_vector, x_closed_form_increment[, 1], type = 'l', col = 'blue')
 
 
+## testing black-scholes formula for call option
+
+source('black_scholes_formula.R')
+
+strike <- 150
+
+# theoretical value
+call_value_theoretical <- sapply(time_vector, function(i) {
+  
+  black_scholes_formula(t = 0, 
+                        maturity = i,
+                        s = x0, 
+                        K = strike, 
+                        r = mu, 
+                        sigma = sigma)
+  
+}) 
+  
+  
+
+
+# monte carlo value
+
+call_value_mc <- sapply(time_vector, function(i) {
+  
+  index <- which(time_vector == i)
+  mean(1/(1 + r * dt) ^ (index - 1)  * pmax(0, x[index, ] - strike))
+  
+})
+  
+
+plot(time_vector, call_value_theoretical, type = 'l')
+points(time_vector, call_value_mc)
