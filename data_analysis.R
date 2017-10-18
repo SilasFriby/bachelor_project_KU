@@ -51,10 +51,4 @@ shapiro.test(log_return)
 
 ## option price data
 
-library(data.table)
-data_option <- fread('data/L3_options_20160105.csv', 
-                          header = T, 
-                          sep = ',', 
-                          dec = '.')
-colnames(data_option)
 
