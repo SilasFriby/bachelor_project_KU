@@ -3,8 +3,7 @@ rm(list = ls())
 
 source('black_scholes_formula.R')
 library(quantmod)
-library(stats4) # mle function 
-
+library(RND)
 
 ## stock prices from yahoo using the package quantmod
 
@@ -42,53 +41,25 @@ Box.test(log_return, lag = 1, type = "Ljung-Box")
 qqnorm(log_return);qqline(log_return, col = 2)
 shapiro.test(log_return)
 
-## estimate Q-parameters in GBM - assuming equidistant data
+## estimate Q-parameters in GBM - assuming equidistant data - recall drift of stock is not neccessary for pricing!
 
 # mle
-r_mle <- -0.01 # the variance on the drift estimate in GBM is very high - hence I have just chosen a value based on the market interest level
+r <- 0 # the variance on the drift estimate in GBM is very high - hence I have just chosen a value based on the market interest level
 dt <- 1/250 # approximate number of observations per year
 sigma_mle <- sqrt(var(log_return) / dt)
 
 # mle variance
-var_r_mle <- sigma_mle ^ 2 * (2 + sigma_mle ^ 2 * dt) / (2 * dt) 
+var_r <- sigma_mle ^ 2 * (2 + sigma_mle ^ 2 * dt) / (2 * dt) 
 var_sigma_mle <- sigma_mle ^ 2 /2
 
 
 # dt <- 1#/(dim(SPY_sub)[1]/ 5) # one over the number of observations per year
 # sigma_mle <- sqrt(var(log_return) / dt)
-# r_mle <- mean(log_return) / dt + sigma_mle ^ 2 / 2
+# r <- mean(log_return) / dt + sigma_mle ^ 2 / 2
 
 hist(log_return, freq = FALSE)
-lines(sort(log_return), dnorm(sort(log_return), mean = (r_mle - sigma_mle ^ 2 / 2) * dt, sd = sigma_mle * sqrt(dt)), lwd = 2)
+lines(sort(log_return), dnorm(sort(log_return), mean = (r - sigma_mle ^ 2 / 2) * dt, sd = sigma_mle * sqrt(dt)), lwd = 2)
 
-# # approach with likelihood function - based on normality assumption
-# 
-# LL <- function(obs, mu, sigma) {
-#    -sum(log(dnorm(obs, mu, sigma)))
-# }
-# 
-# mle_estimates <- mle(function(mu, sigma) LL(obs = log_return, mu, sigma),
-#                      start = list(mu = 1, sigma=1))
-# 
-# r_mle <- 0.0004428211
-# sigme_mle <- 0.0076845548
-# 
-# sigme_mle <- sqrt(0.0076845548^2 / dt)
-# r_mle <- 0.0004428211 / dt + sigma_mle / 2
-# 
-# LL <- function(obs, theta) {
-#   -sum(log(dnorm(obs, theta[1], theta[2])))
-# } 
-# 
-# nlm(function(theta) LL(obs = log_return, theta), c(1, 1), hessian = TRUE)
-# 
-# optim(c(0.1, 0.1), 
-#       function(theta) LL(obs = log_return, theta),
-#       method = "L-BFGS-B",
-#       lower = c(0.001, 0.001),
-#       upper = c(1, 1))
-# 
-# LL(obs = log_return, theta = c(0.001, 0.001))
 
 ## option data from Yahoo using the package quantmod
 
@@ -110,19 +81,19 @@ spy_options_call$maturity_date <-
 spy_options_call$maturity <- as.numeric((spy_options_call$maturity_date - max(SPY_sub$date))/365.25)
 
 price_bs <- rep(NA, dim(spy_options_call)[1])
+price_underlying <- SPY_sub$price[SPY_sub$date == max(SPY_sub$date)]
+maturity <- spy_options_call$maturity[1] # same maturity for all
 for (k in 1:dim(spy_options_call)[1]) {
 
-  price_underlying <- SPY_sub$price[SPY_sub$date == max(SPY_sub$date)]
-  maturity <- spy_options_call$maturity[k]
   strike <- spy_options_call$strike[k]
   
   # black-scholes call price
-  price_bs[k] <- black_scholes_formula(t = 0, 
-                                    maturity = maturity,
-                                    s = price_underlying, 
-                                    K = strike, 
-                                    r = r_mle, 
-                                    sigma = sigma_mle)
+  price_bs[k] <- black_scholes_formula(ttm = maturity,
+                                       s = price_underlying, 
+                                       K = strike, 
+                                       r = r, 
+                                       sigma = sigma_mle,
+                                       dividend = 0)
   
 }
 
@@ -130,3 +101,72 @@ for (k in 1:dim(spy_options_call)[1]) {
 plot(price_bs, type = 'l')
 points(spy_options_call$price)
 # plot((price_bs - spy_options_call$price) / price_bs)
+
+
+
+## implied volatility
+
+
+vol_implied <- rep(NA, dim(spy_options_call)[1])
+price_underlying <- SPY_sub$price[SPY_sub$date == max(SPY_sub$date)]
+maturity <- spy_options_call$maturity[1] # same maturity for all
+for (k in 1:dim(spy_options_call)[1]) {
+
+  price_call_obs <- spy_options_call$price[k]
+  
+  strike <- spy_options_call$strike[k]
+
+  f <- function(sigma) black_scholes_formula(ttm = maturity,
+                                             s = price_underlying,
+                                             K = strike,
+                                             r = r,
+                                             sigma,
+                                             dividend = 0.02)
+
+  vol_implied[k] <- uniroot(function(sigma) f(sigma) - price_call_obs, c(-1, 1))$r
+
+
+}
+
+
+plot(spy_options_call$strike / price_underlying, vol_implied, type = 'l')
+
+
+## perfect match when using implied volatility - OF COURSE!
+
+price_bs_implied <- rep(NA, dim(spy_options_call)[1])
+for (k in 1:dim(spy_options_call)[1]) {
+  
+  strike <- spy_options_call$strike[k]
+  
+  # black-scholes call price
+  price_bs_implied[k] <- black_scholes_formula(ttm = maturity,
+                                       s = price_underlying, 
+                                       K = strike, 
+                                       r = r, 
+                                       sigma = vol_implied[k],
+                                       dividend = 0.02)
+  
+}
+
+plot(price_bs_implied, type = 'l')
+points(spy_options_call$price)
+
+# ## VIX from yahoo using the package quantmod
+#
+# # get VIX
+# setSymbolLookup('^VIX'='yahoo')
+# getSymbols('^VIX')
+# str(VIX)
+#
+# # convert data from xts table to data frame
+# VIX <- as.data.frame(VIX)
+# VIX <- cbind.data.frame(as.Date(row.names(VIX)), VIX$VIX.Close)
+# rownames(VIX) <- NULL
+# colnames(VIX) <- c('date', 'vol')
+# head(VIX)
+# str(VIX)
+# plot(VIX$vol, type = 'l')
+
+
+
