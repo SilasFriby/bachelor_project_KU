@@ -22,7 +22,7 @@ str(SPY)
 
 # subset data
 
-SPY_sub <- subset(SPY, date >= as.Date('2012-10-17'))
+SPY_sub <- subset(SPY, date >= as.Date('2016-10-17'))
 plot(1:dim(SPY_sub)[1], SPY_sub$price, type = 'l')
 
 
@@ -44,16 +44,22 @@ shapiro.test(log_return)
 
 ## estimate Q-parameters in GBM - assuming equidistant data
 
-sigma_mle <-0.1
-r_mle <- 0
-dt <- 1/200
+# mle
+r_mle <- -0.01 # the variance on the drift estimate in GBM is very high - hence I have just chosen a value based on the market interest level
+dt <- 1/250 # approximate number of observations per year
+sigma_mle <- sqrt(var(log_return) / dt)
 
-# dt <- 1/(dim(SPY_sub)[1]/ 5) # one over the number of observations per year
+# mle variance
+var_r_mle <- sigma_mle ^ 2 * (2 + sigma_mle ^ 2 * dt) / (2 * dt) 
+var_sigma_mle <- sigma_mle ^ 2 /2
+
+
+# dt <- 1#/(dim(SPY_sub)[1]/ 5) # one over the number of observations per year
 # sigma_mle <- sqrt(var(log_return) / dt)
-# r_mle <- mean(log_return) / dt + sigma_mle / 2
+# r_mle <- mean(log_return) / dt + sigma_mle ^ 2 / 2
 
 hist(log_return, freq = FALSE)
-lines(sort(log_return), dnorm(sort(log_return), mean = (r_mle - sigma_mle / 2) * dt, sd = sigma_mle * sqrt(dt)), lwd = 2)
+lines(sort(log_return), dnorm(sort(log_return), mean = (r_mle - sigma_mle ^ 2 / 2) * dt, sd = sigma_mle * sqrt(dt)), lwd = 2)
 
 # # approach with likelihood function - based on normality assumption
 # 
@@ -93,7 +99,7 @@ str(spy_options)
 # call option data - set price to average between bid and ask
 spy_options_call <- cbind.data.frame(rownames(spy_options$calls), 
                                      spy_options$calls$Strike, 
-                                     rowMeans(cbind(spy_options$calls$Bid, spy_options$calls$Ask)))
+                                     spy_options$calls$Last) #rowMeans(cbind(spy_options$calls$Bid, spy_options$calls$Ask)))
 colnames(spy_options_call) <- c('symbol', 'strike', 'price')
 
 # add column maturity_date maturity (in years)
