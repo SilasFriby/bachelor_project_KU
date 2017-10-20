@@ -3,7 +3,7 @@ rm(list = ls())
 
 source('black_scholes_formula.R')
 library(quantmod)
-library(RND)
+
 
 ## stock prices from yahoo using the package quantmod
 
