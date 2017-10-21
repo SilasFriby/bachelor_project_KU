@@ -1,0 +1,92 @@
+---
+title: "Udkast til bachelor projekt"
+author: "Silas Furu Friby"
+date: "21 okt 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Grundlæggende intuition og forståelse
+
+### Formål
+
+#### OPGAVER
+
+* Det kan aldrig skade at have en ide om hvorfor man gør som man gør. Så lad os starte fra starten; Hvorfor kunne man være interesseret i at modellere den finansielle verden?
+
+### Modelantagelser
+
+En matematisk model for den finansielle verden vil som oftes begynde med en række antangelser - og vores model er ingen undtagelse.
+
+Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum $(\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)$ som bærer en Wiener proces $(W(t))_{t \geq 0}$. Her betegner $\Omega$ et udfaldsrum, $\mathcal{F}$ er en $\sigma$-algebra som repræsenterer målelige udfald, $\{\mathcal{F_t}\}_{t \geq 0}$ er en filtrering og $P$ er et sandsynlighedsmål. Vores eneste kilde af usikkerhed stammer fra Wiener-processen og vi antager derfor at filtreringen er givet ved
+
+$$ \mathcal{F_t} = \mathcal{F_t}^W \quad \text{for} \quad t \geq 0,$$
+
+hvor $\mathcal{F_t}^W$ er Wiener processens naturlige filtrering, dvs. at $\mathcal{F_t}^W = \sigma\{W(s) : 0 \leq s \leq t\}$. 
+
+Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål $Q$. Vi antager yderligere, at markedet består af to aktiver, et risikofrit aktiv med prisproces $B$ og et risikofyldt aktiv med prisproces $S$. De to aktiver har følgende dynamikker under $P$
+
+\begin{aligned} 
+dB(t) &= r B(t) dt \\
+dS(t) &= \mu S(t) dt + \sigma S(t) dW^P(t),
+\end{aligned}
+
+hvor $r, \mu, \sigma \in \mathbb{R}$ og $W^P$ er en $P$-Wiener proces. En naturlig fortolkning er at tænke $B(t)$ som værdien af en bankbog på tid $t$ med rente $r$ og $S(t)$ som værdien af en aktie på tid $t$.
+
+På baggrund af ovenstående antagelser følger det, at den arbitragefri pris på tid $t$ for en kontrakt, som betaler $f(S(T))$ på tid $T$ er gived ved
+
+$$ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], $$
+hvor $E^Q$ betegner forventingen under det ækvivalente sandsynlighedsmål $Q$. Ovenstående formel er sommetider kendt som *risk netutral pricing*. Og sidst, men ikke mindst, følger det fra antagelserne, at $Q$-dynamikken af $S$ er givet ved
+
+$$ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t), $$
+
+hvor $W^Q$ er en $Q$-Wiener proces.
+
+
+#### OPGAVER
+
+Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget værd, hvis man ikke forstår dem. Nedenstående spørgsmål har således til formål at skabe en intuition og forståelse bag antagelserne, samt at give indblik i hvorvidt antagelserne er meningsfulde. 
+
+* Hvordan kan vi fortolke filtreringen $\mathcal{F_t}$?
+
+* Dynamikkerne for $B$ og $S$ medfører en underliggende antagelse om kontinuitet. Er denne kontinuitets-antagelse rimelig hvis vi ser på virkeligheden? 
+
+* Giv en intuitiv beskrivelse af hVad antagelserne om et arbitragefrit og komplet marked betyder? Er antagelserne rimelige i forhold til virkeligheden? 
+
+* Giv en intuitiv forklaring på det andet lighedstegn i risk netutral pricing ligningen. 
+
+* Det følger af ovenstående antagelser, at $S$ er en Markov proces. Synes dette at være en rimelig af denne antagelse i forhold virkeligheden?
+
+* Betragt følgende udsagn for prisen på tid $t$ af et fremtidigt cash flow 
+    + det diskonterede cash flow.
+    + det diskonterede forventede cash flow. 
+    + det forventede diskonterede cash flow. 
+    + det diskonterede forventede cash flow betinget af informationen i markedet på tid $t$.
+    + det forventede diskonterede cash flow betinget af informationen i markedet på tid $t$.
+    
+    Under hvilke antagelser er ovenstående udsagn korrekte/forkerte?
+
+* I den *virkelige* verden, dvs. hos de finansielle virksomheder (fx banker, realkreditinstittuter og pensionsselskaberne) er *risk neutral pricing* det dominerede paradigme når den finansielle verden skal modelleres. Giv en intuitiv forklaring på hvorfor, at *risk neutral pricing* er "smart". Hint: hvad ville der ske hvis priser blev beregnet under det virkelige sandsynlighedsmål? Og hvorledes ville man være nødt til at korrigere denne fejl?
+
+### Monte Carlo Simulering
+
+#### OPGAVER
+
+* Hvad er den grundlæggende ide med MC simulering?
+
+* Hvorfor er MC simulering brugbart inden for matematisk finansiering?
+
+
+## Startskuddet på vores Economic Scenario Generator (ESG)
+
+Intro..
+
+### Simulering af Geometrisk Brownsk Bevægelse (GBM)
+
+
+
+
