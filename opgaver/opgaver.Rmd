@@ -72,6 +72,8 @@ Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget væ
 
 * I den *virkelige* verden, dvs. hos de finansielle virksomheder (fx banker, realkreditinstittuter og pensionsselskaberne) er *risk neutral pricing* det dominerede paradigme når den finansielle verden skal modelleres. Giv en intuitiv forklaring på hvorfor, at *risk neutral pricing* er "smart". Hint: hvad ville der ske hvis priser blev beregnet under det virkelige sandsynlighedsmål? Og hvorledes ville man være nødt til at korrigere denne fejl?
 
+* Vis matematisk hvilken fordeling processen $S$ følger under $P$ på baggrund af vores antagelser.
+
 ### Monte Carlo Simulering
 
 #### OPGAVER
@@ -81,12 +83,77 @@ Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget væ
 * Hvorfor er MC simulering brugbart inden for matematisk finansiering?
 
 
-## Startskuddet på vores Economic Scenario Generator (ESG)
+## Aktivsiden - startskuddet på vores Economic Scenario Generator (ESG)
 
 Intro..
 
 ### Simulering af Geometrisk Brownsk Bevægelse (GBM)
 
+Vi ønsker at simulere den geometrisk brownske bevægelse $S$ givet værdien $S(0)$ på tidspunkterne $\Delta t, 2\Delta t,..., n\Delta t = T$. Vi lader $\hat{S} = (\hat{S}_0, ..., \hat{S}_n)$ betegner en realiserede sti af $S$. Nedenfor ses to stykker pseudo-kode, som forsøger at simulere en GBM:
+
+#### Metode A
+
+$\hat{S}_0$ = 100
+
+for t $\in$ $(\Delta t, 2\Delta t, ..., n\Delta t)$
+\begin{aligned}
+Z &= \mathtt{rnorm}(1, 0, 1) \\
+\Delta S &= \mu \hat{S}_{t-1} \Delta t + \hat{S}_{t-1} \sigma \sqrt{\Delta t}Z \\
+\hat{S}_t &= \hat{S}_{t-1} + \Delta S,
+\end{aligned}
+
+#### Metode B
+
+$\hat{S}_0$ = 100
+
+for t $\in$ $(\Delta t, 2\Delta t, ..., n\Delta t)$
+\begin{aligned}
+Z &= \mathtt{rnorm}(1, 0, 1) \\
+\hat{S}_t &= \hat{S}_{t-1} \exp(\mu - 0.5 \sigma ^ 2) \Delta t + \sigma \sqrt{\Delta t}Z),
+\end{aligned}
+
+* Er metoderne A og B rigtige/forkerte? Hvad ser vi når vi sammeligner metode A og B, hvis vi først lader $\Delta t = 1$ og derefter lader $\Delta t$ bliver mindre og mindre? Hvorfor?
+
+Nedenfor ses et tredje stykke pseudo-kode, der forsøger at simulere en GBM
+
+#### Metode C
+
+$\hat{S}_0$ = 100
+
+for t $\in$ $(\Delta t, 2\Delta t, ..., n\Delta t)$
+\begin{aligned}
+Z &= \mathtt{rnorm}(1, 0, 1) \\
+\hat{S}_t &= \hat{S}_0 \exp(\mu - 0.5 \sigma ^ 2) t + \sigma \sqrt{t} Z),
+\end{aligned}
+
+* Er metode C rigtig/forkert? 
+
+* Lad $S(0) = 100, \mu = 0.1, \sigma = 0.1$. Skriv $\mathtt{R}$ kode, som simulerer og plotter 10 realiseringer af $S$. Hvordan kan vi tolke plottet? Vil en simuleringssti kunne blive negativ og stemmer det overens med vores antagelser samt virkeligheden?
+
+* Vores nuværende $\mathtt{R}$ kode udgør i sig selv en lille ESG. Udfør en martingaltest. Hvad tester vi?
+
+Hent observerede aktierpriser fra...
+
+* Hvilke underliggende antagelser (nævn kun dem du ikke allerede har nævnt tidligere) følger med når vi antager at aktieprisen følger en GMB? (Hint: Se på $\log(S(t)/S(t-1)$). Lav vurdering af hvorledes de observerede aktiepriser opfylder disse antagelser? 
+
+* Udled lukket-form udtryk for MLE'erne af $\mu$ og $\sigma$ og estimér dem på baggrund af data (både analytisk og numerisk).
+
+* Udled lukket-form udtryk for variansen på MLE'erne for $\mu$ og $\sigma$. Eftervis resultaterne vha. simulationer. Hvad kan vi konkudere udfra lukket-form udtrykkene?
+
+
+### Prisning af finansielle derivater
+
+
+Hent observerede europæiske call/put optionspriser fra...
+
+* Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vore lille ESG *forventer*, hvilke optioner ønsker vi så at investere i?
+
+* Bestem prisen på de valgte optioner vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen.
+
+* Beregn *implied* volatilitet på baggrund af de observerede options priser. Er resultaterne i overensstemmelse med vores antagelser om volatiliteten?
+
+
+## Passivsiden - en udvidelse af vores Economic Scenario Generator (ESG)
 
 
 

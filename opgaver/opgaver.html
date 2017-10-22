@@ -169,6 +169,7 @@ dS(t) &amp;= \mu S(t) dt + \sigma S(t) dW^P(t),
 </ul>
 <p>Under hvilke antagelser er ovenstående udsagn korrekte/forkerte?</p></li>
 <li><p>I den <em>virkelige</em> verden, dvs. hos de finansielle virksomheder (fx banker, realkreditinstittuter og pensionsselskaberne) er <em>risk neutral pricing</em> det dominerede paradigme når den finansielle verden skal modelleres. Giv en intuitiv forklaring på hvorfor, at <em>risk neutral pricing</em> er “smart”. Hint: hvad ville der ske hvis priser blev beregnet under det virkelige sandsynlighedsmål? Og hvorledes ville man være nødt til at korrigere denne fejl?</p></li>
+<li><p>Vis matematisk hvilken fordeling processen <span class="math inline">\(S\)</span> følger under <span class="math inline">\(P\)</span> på baggrund af vores antagelser.</p></li>
 </ul>
 </div>
 </div>
@@ -183,8 +184,68 @@ dS(t) &amp;= \mu S(t) dt + \sigma S(t) dW^P(t),
 </div>
 </div>
 </div>
-<div id="startskuddet-pa-vores-economic-scenario-generator-esg" class="section level2">
-<h2>Startskuddet på vores Economic Scenario Generator (ESG)</h2>
+<div id="aktivsiden---startskuddet-pa-vores-economic-scenario-generator-esg" class="section level2">
+<h2>Aktivsiden - startskuddet på vores Economic Scenario Generator (ESG)</h2>
+<p>Intro..</p>
+<div id="simulering-af-geometrisk-brownsk-bevgelse-gbm" class="section level3">
+<h3>Simulering af Geometrisk Brownsk Bevægelse (GBM)</h3>
+<p>Vi ønsker at simulere den geometrisk brownske bevægelse <span class="math inline">\(S\)</span> givet værdien <span class="math inline">\(S(0)\)</span> på tidspunkterne <span class="math inline">\(\Delta t, 2\Delta t,..., n\Delta t = T\)</span>. Vi lader <span class="math inline">\(\hat{S} = (\hat{S}_0, ..., \hat{S}_n)\)</span> betegner en realiserede sti af <span class="math inline">\(S\)</span>. Nedenfor ses to stykker pseudo-kode, som forsøger at simulere en GBM:</p>
+<div id="metode-a" class="section level4">
+<h4>Metode A</h4>
+<p><span class="math inline">\(\hat{S}_0\)</span> = 100</p>
+for t <span class="math inline">\(\in\)</span> <span class="math inline">\((\Delta t, 2\Delta t, ..., n\Delta t)\)</span>
+<span class="math display">\[\begin{aligned}
+Z &amp;= \mathtt{rnorm}(1, 0, 1) \\
+\Delta S &amp;= \mu \hat{S}_{t-1} \Delta t + \hat{S}_{t-1} \sigma \sqrt{\Delta t}Z \\
+\hat{S}_t &amp;= \hat{S}_{t-1} + \Delta S,
+\end{aligned}\]</span>
+</div>
+<div id="metode-b" class="section level4">
+<h4>Metode B</h4>
+<p><span class="math inline">\(\hat{S}_0\)</span> = 100</p>
+for t <span class="math inline">\(\in\)</span> <span class="math inline">\((\Delta t, 2\Delta t, ..., n\Delta t)\)</span>
+<span class="math display">\[\begin{aligned}
+Z &amp;= \mathtt{rnorm}(1, 0, 1) \\
+\hat{S}_t &amp;= \hat{S}_{t-1} \exp(\mu - 0.5 \sigma ^ 2) \Delta t + \sigma \sqrt{\Delta t}Z),
+\end{aligned}\]</span>
+<ul>
+<li>Er metoderne A og B rigtige/forkerte? Hvad ser vi når vi sammeligner metode A og B, hvis vi først lader <span class="math inline">\(\Delta t = 1\)</span> og derefter lader <span class="math inline">\(\Delta t\)</span> bliver mindre og mindre? Hvorfor?</li>
+</ul>
+<p>Nedenfor ses et tredje stykke pseudo-kode, der forsøger at simulere en GBM</p>
+</div>
+<div id="metode-c" class="section level4">
+<h4>Metode C</h4>
+<p><span class="math inline">\(\hat{S}_0\)</span> = 100</p>
+for t <span class="math inline">\(\in\)</span> <span class="math inline">\((\Delta t, 2\Delta t, ..., n\Delta t)\)</span>
+<span class="math display">\[\begin{aligned}
+Z &amp;= \mathtt{rnorm}(1, 0, 1) \\
+\hat{S}_t &amp;= \hat{S}_0 \exp(\mu - 0.5 \sigma ^ 2) t + \sigma \sqrt{t} Z),
+\end{aligned}\]</span>
+<ul>
+<li><p>Er metode C rigtig/forkert?</p></li>
+<li><p>Lad <span class="math inline">\(S(0) = 100, \mu = 0.1, \sigma = 0.1\)</span>. Skriv <span class="math inline">\(\mathtt{R}\)</span> kode, som simulerer og plotter 10 realiseringer af <span class="math inline">\(S\)</span>. Hvordan kan vi tolke plottet? Vil en simuleringssti kunne blive negativ og stemmer det overens med vores antagelser samt virkeligheden?</p></li>
+<li><p>Vores nuværende <span class="math inline">\(\mathtt{R}\)</span> kode udgør i sig selv en lille ESG. Udfør en martingaltest. Hvad tester vi?</p></li>
+</ul>
+<p>Hent observerede aktierpriser fra…</p>
+<ul>
+<li><p>Hvilke underliggende antagelser (nævn kun dem du ikke allerede har nævnt tidligere) følger med når vi antager at aktieprisen følger en GMB? (Hint: Se på <span class="math inline">\(\log(S(t)/S(t-1)\)</span>). Lav vurdering af hvorledes de observerede aktiepriser opfylder disse antagelser?</p></li>
+<li><p>Udled lukket-form udtryk for MLE’erne af <span class="math inline">\(\mu\)</span> og <span class="math inline">\(\sigma\)</span> og estimér dem på baggrund af data (både analytisk og numerisk).</p></li>
+<li><p>Udled lukket-form udtryk for variansen på MLE’erne for <span class="math inline">\(\mu\)</span> og <span class="math inline">\(\sigma\)</span>. Eftervis resultaterne vha. simulationer. Hvad kan vi konkudere udfra lukket-form udtrykkene?</p></li>
+</ul>
+</div>
+</div>
+<div id="prisning-af-finansielle-derivater" class="section level3">
+<h3>Prisning af finansielle derivater</h3>
+<p>Hent observerede europæiske call/put optionspriser fra…</p>
+<ul>
+<li><p>Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vore lille ESG <em>forventer</em>, hvilke optioner ønsker vi så at investere i?</p></li>
+<li><p>Bestem prisen på de valgte optioner vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen.</p></li>
+<li><p>Beregn <em>implied</em> volatilitet på baggrund af de observerede options priser. Er resultaterne i overensstemmelse med vores antagelser om volatiliteten?</p></li>
+</ul>
+</div>
+</div>
+<div id="passivsiden---en-udvidelse-af-vores-economic-scenario-generator-esg" class="section level2">
+<h2>Passivsiden - en udvidelse af vores Economic Scenario Generator (ESG)</h2>
 </div>
 
 

@@ -14,9 +14,9 @@ sigma <- 0.1
 
 ## simulate short rate paths
 
-n  <- 10    # monte carlo simulation paths 
+n  <- 1    # monte carlo simulation paths 
 end_time  <- 10
-dt <- 1 / 200
+dt <- 1
 time_vector <- seq(0, end_time, by = dt)
 m  <- length(time_vector)      # subintervals
 
@@ -35,13 +35,13 @@ for (k in 1:n) {
 
 
 
-# ## plot
-# 
-# data <- data.frame('time' = seq(0, m), x)
-# data <- melt(data,  id = c('time'))
-# 
-# ggplot(data, aes(time, value)) +
-#   geom_line(aes(colour = variable))
+## plot
+
+data <- data.frame('time' = seq(0, m - 1), x)
+data <- melt(data,  id = c('time'))
+
+ggplot(data, aes(time, value)) +
+  geom_line(aes(colour = variable))
 
 ## present value of future expected cash flow
 
