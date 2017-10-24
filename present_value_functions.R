@@ -81,13 +81,13 @@ pv_non_callable_bond_MC <- function(t, time_vector, dt, payment_dt, short_rate_p
 
 
 
-test <- rep(NA, length(time_vector))
-for( i in time_vector) {
-  test[which(time_vector == i)] <- pv_non_callable_bond_MC(t = i,
-                                     time_vector = time_vector,
-                                     dt = dt,
-                                     payment_dt = 100,
-                                     short_rate_paths = short_rate)
-}
-
-plot(time_vector, test)
+# test <- rep(NA, length(time_vector))
+# for( i in time_vector) {
+#   test[which(time_vector == i)] <- pv_non_callable_bond_MC(t = i,
+#                                      time_vector = time_vector,
+#                                      dt = dt,
+#                                      payment_dt = 100,
+#                                      short_rate_paths = short_rate)
+# }
+# 
+# plot(time_vector, test)
