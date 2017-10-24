@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Grundlæggende intuition og forståelse
 
-### Formål
+### Lidt filosofi og formål
 
 #### OPGAVER
 
@@ -22,29 +22,29 @@ knitr::opts_chunk$set(echo = TRUE)
 
 En matematisk model for den finansielle verden vil som oftes begynde med en række antangelser - og vores model er ingen undtagelse.
 
-Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum $(\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)$ som bærer en Wiener proces $(W(t))_{t \geq 0}$. Her betegner $\Omega$ et udfaldsrum, $\mathcal{F}$ er en $\sigma$-algebra som repræsenterer målelige udfald, $\{\mathcal{F_t}\}_{t \geq 0}$ er en filtrering og $P$ er et sandsynlighedsmål. Vores eneste kilde af usikkerhed stammer fra Wiener-processen og vi antager derfor at filtreringen er givet ved
+Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum $(\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)$ som bærer en Wiener proces $(W(t))_{t \geq 0}$. Her betegner $\Omega$ et udfaldsrum, $\mathcal{F}$ er en $\sigma$-algebra som repræsenterer målelige udfald, $\{\mathcal{F_t}\}_{t \geq 0}$ er en filtrering og $P$ er et sandsynlighedsmål. 
 
-$$ \mathcal{F_t} = \mathcal{F_t}^W \quad \text{for} \quad t \geq 0,$$
-
-hvor $\mathcal{F_t}^W$ er Wiener processens naturlige filtrering, dvs. at $\mathcal{F_t}^W = \sigma\{W(s) : 0 \leq s \leq t\}$. 
-
-Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål $Q$. Vi antager yderligere, at markedet består af to aktiver, et risikofrit aktiv med prisproces $B$ og et risikofyldt aktiv med prisproces $S$. De to aktiver har følgende dynamikker under $P$
+Vi antager at markedet består af to aktiver, et risikofrit aktiv med prisproces $B$ og et risikofyldt aktiv med prisproces $S$. De to aktiver antages at have følgende dynamikker under $P$
 
 \begin{aligned} 
 dB(t) &= r B(t) dt \\
 dS(t) &= \mu S(t) dt + \sigma S(t) dW^P(t),
 \end{aligned}
 
-hvor $r, \mu, \sigma \in \mathbb{R}$ og $W^P$ er en $P$-Wiener proces. En naturlig fortolkning er at tænke $B(t)$ som værdien af en bankbog på tid $t$ med rente $r$ og $S(t)$ som værdien af en aktie på tid $t$.
+hvor $r, \mu, \sigma \in \mathbb{R}$ og $W^P$ er en $P$-Wiener proces. Det vil være naturligt at tænke $B(t)$ som værdien af en bankbog på tid $t$ med rente $r$ og $S(t)$ som værdien af en aktie på tid $t$.
 
-På baggrund af ovenstående antagelser følger det, at den arbitragefri pris på tid $t$ for en kontrakt, som betaler $f(S(T))$ på tid $T$ er gived ved
-
-$$ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], $$
-hvor $E^Q$ betegner forventingen under det ækvivalente sandsynlighedsmål $Q$. Ovenstående formel er sommetider kendt som *risk netutral pricing*. Og sidst, men ikke mindst, følger det fra antagelserne, at $Q$-dynamikken af $S$ er givet ved
+Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål $Q$. Det følger, at $Q$-dynamikken for $S$ er givet ved
 
 $$ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t), $$
 
 hvor $W^Q$ er en $Q$-Wiener proces.
+
+På baggrund af ovenstående antagelser følger det yderligere, at den arbitragefri pris på tid $t$ for en kontrakt, som betaler $f(S(T))$ på tid $T$ er gived ved
+
+$$ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], $$
+hvor $E^Q$ betegner forventingen under sandsynlighedsmålet $Q$. Ovenstående formel er sommetider kendt som *risk netutral pricing*. 
+
+
 
 
 #### OPGAVER
@@ -55,7 +55,7 @@ Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget væ
 
 * Dynamikkerne for $B$ og $S$ medfører en underliggende antagelse om kontinuitet. Er denne kontinuitets-antagelse rimelig hvis vi ser på virkeligheden? 
 
-* Giv en intuitiv beskrivelse af hVad antagelserne om et arbitragefrit og komplet marked betyder? Er antagelserne rimelige i forhold til virkeligheden? 
+* Giv en intuitiv beskrivelse af hvad antagelserne om et arbitragefrit og komplet marked betyder? Er antagelserne rimelige i forhold til virkeligheden? 
 
 * Giv en intuitiv forklaring på det andet lighedstegn i risk netutral pricing ligningen. 
 
@@ -63,8 +63,6 @@ Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget væ
 
 * Betragt følgende udsagn for prisen på tid $t$ af et fremtidigt cash flow 
     + det diskonterede cash flow.
-    + det diskonterede forventede cash flow. 
-    + det forventede diskonterede cash flow. 
     + det diskonterede forventede cash flow betinget af informationen i markedet på tid $t$.
     + det forventede diskonterede cash flow betinget af informationen i markedet på tid $t$.
     
@@ -83,7 +81,7 @@ Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget væ
 * Hvorfor er MC simulering brugbart inden for matematisk finansiering?
 
 
-## Aktivsiden - startskuddet på vores Economic Scenario Generator (ESG)
+## Aktier og europæiske optioner - startskuddet på vores Economic Scenario Generator (ESG)
 
 Intro..
 
@@ -128,11 +126,10 @@ Z &= \mathtt{rnorm}(1, 0, 1) \\
 
 * Er metode C rigtig/forkert? 
 
-* Lad $S(0) = 100, \mu = 0.1, \sigma = 0.1$. Skriv $\mathtt{R}$ kode, som simulerer og plotter 10 realiseringer af $S$. Hvordan kan vi tolke plottet? Vil en simuleringssti kunne blive negativ og stemmer det overens med vores antagelser samt virkeligheden?
+* Lad $S(0) = 100, \mu = 0.03, \sigma = 0.1$. Skriv $\mathtt{R}$ kode, som simulerer og plotter 10 realiseringer af $S$ under $P$. Hvordan kan vi tolke plottet? Vil en simuleringssti kunne blive negativ og stemmer det overens med vores antagelser samt med virkeligheden?
 
-* Vores nuværende $\mathtt{R}$ kode udgør i sig selv en lille ESG. Udfør en martingaltest. Hvad tester vi?
 
-Hent observerede aktierpriser fra...
+Hent observerede aktierpriser fra yahoo med kode SPY...
 
 * Hvilke underliggende antagelser (nævn kun dem du ikke allerede har nævnt tidligere) følger med når vi antager at aktieprisen følger en GMB? (Hint: Se på $\log(S(t)/S(t-1)$). Lav vurdering af hvorledes de observerede aktiepriser opfylder disse antagelser? 
 
@@ -140,20 +137,74 @@ Hent observerede aktierpriser fra...
 
 * Udled lukket-form udtryk for variansen på MLE'erne for $\mu$ og $\sigma$. Eftervis resultaterne vha. simulationer. Hvad kan vi konkudere udfra lukket-form udtrykkene?
 
+* Bør vi være bekymret for MLE'en på $\mu$ i forhold til prisning af finansielle derivater, som afhænger af $S$?
 
-### Prisning af finansielle derivater
+
+### Europæiske optioner
 
 
 Hent observerede europæiske call/put optionspriser fra...
 
-* Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vore lille ESG *forventer*, hvilke optioner ønsker vi så at investere i?
+* Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vores model *forventer*, hvilke optioner ønsker vi så at investere i?
 
-* Bestem prisen på de valgte optioner vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen.
+* Lad $r = 0.01$. Bestem prisen på de valgte optioner vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen. (Hint: Tænk over om $S$ skal simuleres under $P$ eller $Q$)
 
 * Beregn *implied* volatilitet på baggrund af de observerede options priser. Er resultaterne i overensstemmelse med vores antagelser om volatiliteten?
 
 
-## Passivsiden - en udvidelse af vores Economic Scenario Generator (ESG)
+## Obligationer - en udvidelse af vores Economic Scenario Generator (ESG)
+
+Intro.. noget med lån.. noget med at vores antagelse om konstant korte rente, $r$, nu skal udvides.. Antag vasicek model.. blabla..
+
+* Kan størrelsen $r$ observeres i den *virkelige* verden?
+
+* Hvorfor er obligationspriser ikke unikt bestemt af den korte rentes $P$-dynamik?
+
+* Hvad har vi implicit antaget om *the market price of risk* under en Vasicek model for $r$?
+
+Indlæs rentedata fra amerikanske statsobligationer..
+
+* Udled lukket-form udtryk for MLE'erne af $P$-parametrene i Vasicek modellen
+
+* Estimér MLE'er på baggrund af data. Sammenlign lukket-form og numerisk metode.
+
+* Estimér varians af MLE'er på baggrund af simulationer. Plot fordelingerne af MLE'erne fundet på baggrund af simuleringer. Hvordan passer disse fordelinger på antagelsen om asymptotisk normalitet af MLE'er?
+
+* Estimér mean-reversion under $Q$. (Hint: benyt den gennemsnitlige yield curve)
+
+* Kan vi sige noget om usikkerheden/variansen på estimatet for mean-reversion under $Q$? 
+
+* Udled lukket-form udtryk for prisen af ikke-konvertérbart annuitetslån (hint: benyt ZCB formel). Eftervis den fundne formel ved simuleringer.
+
+* Hvordan afhænger den fundne pris på et ikke-konvertérbart annuitetslån af markedsrenten $r$? Hvordan kan denne sammenhæng forklares intuitivt?
+
+* Hvad vil vi forvente om prisen på et konvertérbart anuitetslån sammenlignet med et ikke-konvertérbart annuitetslån (Hint: tænk på det forventede cash flow for de to lånetyper)
+
+* flere opgaver...
+
+## Forventet fremtidig indtjening, hedging og risikostyring...
+
+Vi har nu skabt en ESG, som kan simulere markedsrenten, aktiepriser, obligationspriser og europæiske call- og putoptioner. Vi vil nu forsøge at benytte denne ESG til at udtale os om den forventede fremtidige indtjening for en given virksomhed.
+
+### Forventet fremtidig indtjening
+
+$$
+E[ C(t + 1, S(t+1)) | \mathcal{F}_t ] = E[ E[e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t+1}] | \mathcal{F}_t] = E[ e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_t]
+$$
+
+hvor det sidste lighedstegn skyldes tower property.
+
+Den forventede værdi af værdien af en option på tid $t+1$ kan således beregnes som en nutidsværdi med svagere diskontering.
+
+
+### Delta hedgning
+
+### Risikostyring - Value at Risk
+
+Vi forestiller os nu, at lovgivningen kræver, at virksomheden skal tilsidesætte en vis mængde kapital, således at risikoen or konkurs mindskes i dårlige tider på det finansielle marked. Helt konkret kræves det, at virksomheden tilsidesætter et beløb, som svarer til det værste tænkelige udfald af en 100 års begivenhed.
 
 
 
+## Udvidelser til den nørdede studerende...
+
+<!-- * Vores nuværende $\mathtt{R}$ kode udgør i sig selv en lille ESG. Udfør en martingaltest. Hvad tester vi? -->

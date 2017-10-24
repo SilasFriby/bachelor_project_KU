@@ -125,8 +125,8 @@ $(document).ready(function () {
 
 <div id="grundlggende-intuition-og-forstaelse" class="section level2">
 <h2>Grundlæggende intuition og forståelse</h2>
-<div id="formal" class="section level3">
-<h3>Formål</h3>
+<div id="lidt-filosofi-og-formal" class="section level3">
+<h3>Lidt filosofi og formål</h3>
 <div id="opgaver" class="section level4">
 <h4>OPGAVER</h4>
 <ul>
@@ -137,33 +137,30 @@ $(document).ready(function () {
 <div id="modelantagelser" class="section level3">
 <h3>Modelantagelser</h3>
 <p>En matematisk model for den finansielle verden vil som oftes begynde med en række antangelser - og vores model er ingen undtagelse.</p>
-<p>Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum <span class="math inline">\((\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)\)</span> som bærer en Wiener proces <span class="math inline">\((W(t))_{t \geq 0}\)</span>. Her betegner <span class="math inline">\(\Omega\)</span> et udfaldsrum, <span class="math inline">\(\mathcal{F}\)</span> er en <span class="math inline">\(\sigma\)</span>-algebra som repræsenterer målelige udfald, <span class="math inline">\(\{\mathcal{F_t}\}_{t \geq 0}\)</span> er en filtrering og <span class="math inline">\(P\)</span> er et sandsynlighedsmål. Vores eneste kilde af usikkerhed stammer fra Wiener-processen og vi antager derfor at filtreringen er givet ved</p>
-<p><span class="math display">\[ \mathcal{F_t} = \mathcal{F_t}^W \quad \text{for} \quad t \geq 0,\]</span></p>
-<p>hvor <span class="math inline">\(\mathcal{F_t}^W\)</span> er Wiener processens naturlige filtrering, dvs. at <span class="math inline">\(\mathcal{F_t}^W = \sigma\{W(s) : 0 \leq s \leq t\}\)</span>.</p>
-<p>Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål <span class="math inline">\(Q\)</span>. Vi antager yderligere, at markedet består af to aktiver, et risikofrit aktiv med prisproces <span class="math inline">\(B\)</span> og et risikofyldt aktiv med prisproces <span class="math inline">\(S\)</span>. De to aktiver har følgende dynamikker under <span class="math inline">\(P\)</span></p>
+<p>Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum <span class="math inline">\((\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)\)</span> som bærer en Wiener proces <span class="math inline">\((W(t))_{t \geq 0}\)</span>. Her betegner <span class="math inline">\(\Omega\)</span> et udfaldsrum, <span class="math inline">\(\mathcal{F}\)</span> er en <span class="math inline">\(\sigma\)</span>-algebra som repræsenterer målelige udfald, <span class="math inline">\(\{\mathcal{F_t}\}_{t \geq 0}\)</span> er en filtrering og <span class="math inline">\(P\)</span> er et sandsynlighedsmål.</p>
+<p>Vi antager at markedet består af to aktiver, et risikofrit aktiv med prisproces <span class="math inline">\(B\)</span> og et risikofyldt aktiv med prisproces <span class="math inline">\(S\)</span>. De to aktiver antages at have følgende dynamikker under <span class="math inline">\(P\)</span></p>
 <span class="math display">\[\begin{aligned} 
 dB(t) &amp;= r B(t) dt \\
 dS(t) &amp;= \mu S(t) dt + \sigma S(t) dW^P(t),
 \end{aligned}\]</span>
-<p>hvor <span class="math inline">\(r, \mu, \sigma \in \mathbb{R}\)</span> og <span class="math inline">\(W^P\)</span> er en <span class="math inline">\(P\)</span>-Wiener proces. En naturlig fortolkning er at tænke <span class="math inline">\(B(t)\)</span> som værdien af en bankbog på tid <span class="math inline">\(t\)</span> med rente <span class="math inline">\(r\)</span> og <span class="math inline">\(S(t)\)</span> som værdien af en aktie på tid <span class="math inline">\(t\)</span>.</p>
-<p>På baggrund af ovenstående antagelser følger det, at den arbitragefri pris på tid <span class="math inline">\(t\)</span> for en kontrakt, som betaler <span class="math inline">\(f(S(T))\)</span> på tid <span class="math inline">\(T\)</span> er gived ved</p>
-<p><span class="math display">\[ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], \]</span> hvor <span class="math inline">\(E^Q\)</span> betegner forventingen under det ækvivalente sandsynlighedsmål <span class="math inline">\(Q\)</span>. Ovenstående formel er sommetider kendt som <em>risk netutral pricing</em>. Og sidst, men ikke mindst, følger det fra antagelserne, at <span class="math inline">\(Q\)</span>-dynamikken af <span class="math inline">\(S\)</span> er givet ved</p>
+<p>hvor <span class="math inline">\(r, \mu, \sigma \in \mathbb{R}\)</span> og <span class="math inline">\(W^P\)</span> er en <span class="math inline">\(P\)</span>-Wiener proces. Det vil være naturligt at tænke <span class="math inline">\(B(t)\)</span> som værdien af en bankbog på tid <span class="math inline">\(t\)</span> med rente <span class="math inline">\(r\)</span> og <span class="math inline">\(S(t)\)</span> som værdien af en aktie på tid <span class="math inline">\(t\)</span>.</p>
+<p>Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål <span class="math inline">\(Q\)</span>. Det følger, at <span class="math inline">\(Q\)</span>-dynamikken for <span class="math inline">\(S\)</span> er givet ved</p>
 <p><span class="math display">\[ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t), \]</span></p>
 <p>hvor <span class="math inline">\(W^Q\)</span> er en <span class="math inline">\(Q\)</span>-Wiener proces.</p>
+<p>På baggrund af ovenstående antagelser følger det yderligere, at den arbitragefri pris på tid <span class="math inline">\(t\)</span> for en kontrakt, som betaler <span class="math inline">\(f(S(T))\)</span> på tid <span class="math inline">\(T\)</span> er gived ved</p>
+<p><span class="math display">\[ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], \]</span> hvor <span class="math inline">\(E^Q\)</span> betegner forventingen under sandsynlighedsmålet <span class="math inline">\(Q\)</span>. Ovenstående formel er sommetider kendt som <em>risk netutral pricing</em>.</p>
 <div id="opgaver-1" class="section level4">
 <h4>OPGAVER</h4>
 <p>Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget værd, hvis man ikke forstår dem. Nedenstående spørgsmål har således til formål at skabe en intuition og forståelse bag antagelserne, samt at give indblik i hvorvidt antagelserne er meningsfulde.</p>
 <ul>
 <li><p>Hvordan kan vi fortolke filtreringen <span class="math inline">\(\mathcal{F_t}\)</span>?</p></li>
 <li><p>Dynamikkerne for <span class="math inline">\(B\)</span> og <span class="math inline">\(S\)</span> medfører en underliggende antagelse om kontinuitet. Er denne kontinuitets-antagelse rimelig hvis vi ser på virkeligheden?</p></li>
-<li><p>Giv en intuitiv beskrivelse af hVad antagelserne om et arbitragefrit og komplet marked betyder? Er antagelserne rimelige i forhold til virkeligheden?</p></li>
+<li><p>Giv en intuitiv beskrivelse af hvad antagelserne om et arbitragefrit og komplet marked betyder? Er antagelserne rimelige i forhold til virkeligheden?</p></li>
 <li><p>Giv en intuitiv forklaring på det andet lighedstegn i risk netutral pricing ligningen.</p></li>
 <li><p>Det følger af ovenstående antagelser, at <span class="math inline">\(S\)</span> er en Markov proces. Synes dette at være en rimelig af denne antagelse i forhold virkeligheden?</p></li>
 <li>Betragt følgende udsagn for prisen på tid <span class="math inline">\(t\)</span> af et fremtidigt cash flow
 <ul>
 <li>det diskonterede cash flow.</li>
-<li>det diskonterede forventede cash flow.</li>
-<li>det forventede diskonterede cash flow.</li>
 <li>det diskonterede forventede cash flow betinget af informationen i markedet på tid <span class="math inline">\(t\)</span>.</li>
 <li>det forventede diskonterede cash flow betinget af informationen i markedet på tid <span class="math inline">\(t\)</span>.</li>
 </ul>
@@ -184,8 +181,8 @@ dS(t) &amp;= \mu S(t) dt + \sigma S(t) dW^P(t),
 </div>
 </div>
 </div>
-<div id="aktivsiden---startskuddet-pa-vores-economic-scenario-generator-esg" class="section level2">
-<h2>Aktivsiden - startskuddet på vores Economic Scenario Generator (ESG)</h2>
+<div id="aktier-og-europiske-optioner---startskuddet-pa-vores-economic-scenario-generator-esg" class="section level2">
+<h2>Aktier og europæiske optioner - startskuddet på vores Economic Scenario Generator (ESG)</h2>
 <p>Intro..</p>
 <div id="simulering-af-geometrisk-brownsk-bevgelse-gbm" class="section level3">
 <h3>Simulering af Geometrisk Brownsk Bevægelse (GBM)</h3>
@@ -223,29 +220,70 @@ Z &amp;= \mathtt{rnorm}(1, 0, 1) \\
 \end{aligned}\]</span>
 <ul>
 <li><p>Er metode C rigtig/forkert?</p></li>
-<li><p>Lad <span class="math inline">\(S(0) = 100, \mu = 0.1, \sigma = 0.1\)</span>. Skriv <span class="math inline">\(\mathtt{R}\)</span> kode, som simulerer og plotter 10 realiseringer af <span class="math inline">\(S\)</span>. Hvordan kan vi tolke plottet? Vil en simuleringssti kunne blive negativ og stemmer det overens med vores antagelser samt virkeligheden?</p></li>
-<li><p>Vores nuværende <span class="math inline">\(\mathtt{R}\)</span> kode udgør i sig selv en lille ESG. Udfør en martingaltest. Hvad tester vi?</p></li>
+<li><p>Lad <span class="math inline">\(S(0) = 100, \mu = 0.03, \sigma = 0.1\)</span>. Skriv <span class="math inline">\(\mathtt{R}\)</span> kode, som simulerer og plotter 10 realiseringer af <span class="math inline">\(S\)</span> under <span class="math inline">\(P\)</span>. Hvordan kan vi tolke plottet? Vil en simuleringssti kunne blive negativ og stemmer det overens med vores antagelser samt med virkeligheden?</p></li>
 </ul>
-<p>Hent observerede aktierpriser fra…</p>
+<p>Hent observerede aktierpriser fra yahoo med kode SPY…</p>
 <ul>
 <li><p>Hvilke underliggende antagelser (nævn kun dem du ikke allerede har nævnt tidligere) følger med når vi antager at aktieprisen følger en GMB? (Hint: Se på <span class="math inline">\(\log(S(t)/S(t-1)\)</span>). Lav vurdering af hvorledes de observerede aktiepriser opfylder disse antagelser?</p></li>
 <li><p>Udled lukket-form udtryk for MLE’erne af <span class="math inline">\(\mu\)</span> og <span class="math inline">\(\sigma\)</span> og estimér dem på baggrund af data (både analytisk og numerisk).</p></li>
 <li><p>Udled lukket-form udtryk for variansen på MLE’erne for <span class="math inline">\(\mu\)</span> og <span class="math inline">\(\sigma\)</span>. Eftervis resultaterne vha. simulationer. Hvad kan vi konkudere udfra lukket-form udtrykkene?</p></li>
+<li><p>Bør vi være bekymret for MLE’en på <span class="math inline">\(\mu\)</span> i forhold til prisning af finansielle derivater, som afhænger af <span class="math inline">\(S\)</span>?</p></li>
 </ul>
 </div>
 </div>
-<div id="prisning-af-finansielle-derivater" class="section level3">
-<h3>Prisning af finansielle derivater</h3>
+<div id="europiske-optioner" class="section level3">
+<h3>Europæiske optioner</h3>
 <p>Hent observerede europæiske call/put optionspriser fra…</p>
 <ul>
-<li><p>Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vore lille ESG <em>forventer</em>, hvilke optioner ønsker vi så at investere i?</p></li>
-<li><p>Bestem prisen på de valgte optioner vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen.</p></li>
+<li><p>Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vores model <em>forventer</em>, hvilke optioner ønsker vi så at investere i?</p></li>
+<li><p>Lad <span class="math inline">\(r = 0.01\)</span>. Bestem prisen på de valgte optioner vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen. (Hint: Tænk over om <span class="math inline">\(S\)</span> skal simuleres under <span class="math inline">\(P\)</span> eller <span class="math inline">\(Q\)</span>)</p></li>
 <li><p>Beregn <em>implied</em> volatilitet på baggrund af de observerede options priser. Er resultaterne i overensstemmelse med vores antagelser om volatiliteten?</p></li>
 </ul>
 </div>
 </div>
-<div id="passivsiden---en-udvidelse-af-vores-economic-scenario-generator-esg" class="section level2">
-<h2>Passivsiden - en udvidelse af vores Economic Scenario Generator (ESG)</h2>
+<div id="obligationer---en-udvidelse-af-vores-economic-scenario-generator-esg" class="section level2">
+<h2>Obligationer - en udvidelse af vores Economic Scenario Generator (ESG)</h2>
+<p>Intro.. noget med lån.. noget med at vores antagelse om konstant korte rente, <span class="math inline">\(r\)</span>, nu skal udvides.. Antag vasicek model.. blabla..</p>
+<ul>
+<li><p>Kan størrelsen <span class="math inline">\(r\)</span> observeres i den <em>virkelige</em> verden?</p></li>
+<li><p>Hvorfor er obligationspriser ikke unikt bestemt af den korte rentes <span class="math inline">\(P\)</span>-dynamik?</p></li>
+<li><p>Hvad har vi implicit antaget om <em>the market price of risk</em> under en Vasicek model for <span class="math inline">\(r\)</span>?</p></li>
+</ul>
+<p>Indlæs rentedata fra amerikanske statsobligationer..</p>
+<ul>
+<li><p>Udled lukket-form udtryk for MLE’erne af <span class="math inline">\(P\)</span>-parametrene i Vasicek modellen</p></li>
+<li><p>Estimér MLE’er på baggrund af data. Sammenlign lukket-form og numerisk metode.</p></li>
+<li><p>Estimér varians af MLE’er på baggrund af simulationer. Plot fordelingerne af MLE’erne fundet på baggrund af simuleringer. Hvordan passer disse fordelinger på antagelsen om asymptotisk normalitet af MLE’er?</p></li>
+<li><p>Estimér mean-reversion under <span class="math inline">\(Q\)</span>. (Hint: benyt den gennemsnitlige yield curve)</p></li>
+<li><p>Kan vi sige noget om usikkerheden/variansen på estimatet for mean-reversion under <span class="math inline">\(Q\)</span>?</p></li>
+<li><p>Udled lukket-form udtryk for prisen af ikke-konvertérbart annuitetslån (hint: benyt ZCB formel). Eftervis den fundne formel ved simuleringer.</p></li>
+<li><p>Hvordan afhænger den fundne pris på et ikke-konvertérbart annuitetslån af markedsrenten <span class="math inline">\(r\)</span>? Hvordan kan denne sammenhæng forklares intuitivt?</p></li>
+<li><p>Hvad vil vi forvente om prisen på et konvertérbart anuitetslån sammenlignet med et ikke-konvertérbart annuitetslån (Hint: tænk på det forventede cash flow for de to lånetyper)</p></li>
+<li><p>flere opgaver…</p></li>
+</ul>
+</div>
+<div id="forventet-fremtidig-indtjening-hedging-og-risikostyring" class="section level2">
+<h2>Forventet fremtidig indtjening, hedging og risikostyring…</h2>
+<p>Vi har nu skabt en ESG, som kan simulere markedsrenten, aktiepriser, obligationspriser og europæiske call- og putoptioner. Vi vil nu forsøge at benytte denne ESG til at udtale os om den forventede fremtidige indtjening for en given virksomhed.</p>
+<div id="forventet-fremtidig-indtjening" class="section level3">
+<h3>Forventet fremtidig indtjening</h3>
+<p><span class="math display">\[
+E[ C(t + 1, S(t+1)) | \mathcal{F}_t ] = E[ E[e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t+1}] | \mathcal{F}_t] = E[ e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_t]
+\]</span></p>
+<p>hvor det sidste lighedstegn skyldes tower property.</p>
+<p>Den forventede værdi af værdien af en option på tid <span class="math inline">\(t+1\)</span> kan således beregnes som en nutidsværdi med svagere diskontering.</p>
+</div>
+<div id="delta-hedgning" class="section level3">
+<h3>Delta hedgning</h3>
+</div>
+<div id="risikostyring---value-at-risk" class="section level3">
+<h3>Risikostyring - Value at Risk</h3>
+<p>Vi forestiller os nu, at lovgivningen kræver, at virksomheden skal tilsidesætte en vis mængde kapital, således at risikoen or konkurs mindskes i dårlige tider på det finansielle marked. Helt konkret kræves det, at virksomheden tilsidesætter et beløb, som svarer til det værste tænkelige udfald af en 100 års begivenhed.</p>
+</div>
+</div>
+<div id="udvidelser-til-den-nrdede-studerende" class="section level2">
+<h2>Udvidelser til den nørdede studerende…</h2>
+<!-- * Vores nuværende $\mathtt{R}$ kode udgør i sig selv en lille ESG. Udfør en martingaltest. Hvad tester vi? -->
 </div>
 
 

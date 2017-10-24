@@ -44,21 +44,16 @@ shapiro.test(log_return)
 ## estimate Q-parameters in GBM - assuming equidistant data - recall drift of stock is not neccessary for pricing!
 
 # mle
-r <- 0 # the variance on the drift estimate in GBM is very high - hence I have just chosen a value based on the market interest level
 dt <- 1/250 # approximate number of observations per year
+mu_mle <- mean(log_return) / dt + sigma_mle ^ 2 / 2 # the variance on the drift estimate in GBM is very high - hence I have just chosen a value based on the market interest level
 sigma_mle <- sqrt(var(log_return) / dt)
 
 # mle variance
-var_r <- sigma_mle ^ 2 * (2 + sigma_mle ^ 2 * dt) / (2 * dt) 
+var_mu_mle <- sigma_mle ^ 2 * (2 + sigma_mle ^ 2 * dt) / (2 * dt) 
 var_sigma_mle <- sigma_mle ^ 2 /2
 
-
-# dt <- 1#/(dim(SPY_sub)[1]/ 5) # one over the number of observations per year
-# sigma_mle <- sqrt(var(log_return) / dt)
-# r <- mean(log_return) / dt + sigma_mle ^ 2 / 2
-
 hist(log_return, freq = FALSE)
-lines(sort(log_return), dnorm(sort(log_return), mean = (r - sigma_mle ^ 2 / 2) * dt, sd = sigma_mle * sqrt(dt)), lwd = 2)
+lines(sort(log_return), dnorm(sort(log_return), mean = (mu_mle - sigma_mle ^ 2 / 2) * dt, sd = sigma_mle * sqrt(dt)), lwd = 2)
 
 
 ## option data from Yahoo using the package quantmod
@@ -80,6 +75,8 @@ spy_options_call$maturity_date <-
 # add column maturity (in years)
 spy_options_call$maturity <- as.numeric((spy_options_call$maturity_date - max(SPY_sub$date))/365.25)
 
+
+r <- 0
 price_bs <- rep(NA, dim(spy_options_call)[1])
 price_underlying <- SPY_sub$price[SPY_sub$date == max(SPY_sub$date)]
 maturity <- spy_options_call$maturity[1] # same maturity for all
@@ -93,13 +90,14 @@ for (k in 1:dim(spy_options_call)[1]) {
                                        K = strike, 
                                        r = r, 
                                        sigma = sigma_mle,
-                                       dividend = 0)
+                                       dividend = 0.02)
   
 }
 
 
 plot(price_bs, type = 'l')
 points(spy_options_call$price)
+plot(spy_options_call$price)
 # plot((price_bs - spy_options_call$price) / price_bs)
 
 
@@ -130,7 +128,7 @@ for (k in 1:dim(spy_options_call)[1]) {
 
 
 plot(spy_options_call$strike / price_underlying, vol_implied, type = 'l')
-
+abline(h = sigma_mle)
 
 ## perfect match when using implied volatility - OF COURSE!
 
@@ -152,21 +150,7 @@ for (k in 1:dim(spy_options_call)[1]) {
 plot(price_bs_implied, type = 'l')
 points(spy_options_call$price)
 
-# ## VIX from yahoo using the package quantmod
-#
-# # get VIX
-# setSymbolLookup('^VIX'='yahoo')
-# getSymbols('^VIX')
-# str(VIX)
-#
-# # convert data from xts table to data frame
-# VIX <- as.data.frame(VIX)
-# VIX <- cbind.data.frame(as.Date(row.names(VIX)), VIX$VIX.Close)
-# rownames(VIX) <- NULL
-# colnames(VIX) <- c('date', 'vol')
-# head(VIX)
-# str(VIX)
-# plot(VIX$vol, type = 'l')
+
 
 
 

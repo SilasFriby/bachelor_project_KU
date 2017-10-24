@@ -12,7 +12,7 @@ mu    <- 0.01
 sigma <- 0.1
 
 
-## simulate short rate paths
+## simulate GBM
 
 n  <- 1    # monte carlo simulation paths 
 end_time  <- 10
