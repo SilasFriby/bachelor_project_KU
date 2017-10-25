@@ -6,8 +6,9 @@ library(reshape2)
 library(ggplot2)
 
 
+
 r_temp <- 4
-r_range <- seq(0, 10)
+r_range <- seq(-4, 10)
 pv <- rep(NA, length(r_range))
 
 for (r_temp in r_range) {
@@ -62,7 +63,7 @@ lambda <- 0
 p_e <- 1 - exp(-lambda * dt)
 
 # prob of PP for both rate and exogeneuos reasons
-rho <- 1
+rho <- 0
 p_r <- 1 - exp(-(rho + lambda) * dt)
 
 # coupon rate annual
@@ -87,13 +88,14 @@ test <- matrix(NA, m - 1, n)
 
 for (i in m:2) {
   
-  # int <- colSums(short_rate[which(time_vector_r == time_vector[i - 1]):which(time_vector_r == time_vector[i]), ]) * dt
-  # discount_factor <- exp(-int)
+  int <- colSums(short_rate[which(time_vector_r == time_vector[i - 1]):which(time_vector_r == time_vector[i]), ]) * dt
+  discount_factor <- exp(-int)
   temp_face_value <- face_value(i - 1, q, face_value_initial, C)
-  test[i - 1, ] <- v[i,] > temp_face_value #discount_factor * temp_face_value 
+  test[i - 1, ] <- v[i,] > temp_face_value 
   v[i - 1, ] <- ifelse(test[i - 1, ],
-                       temp_face_value + C, #(1 - p_e) * v[i,] + p_e * temp_face_value + C,
-                       v[i,] + C) #(1 - p_r) * v[i,] + p_r * temp_face_value + C) 
+                       (1 - p_r) * discount_factor * v[i,] + p_r * temp_face_value + C,
+                       (1 - p_e) * discount_factor * v[i,] + p_e * temp_face_value + C)
+                       
   
 }
 
@@ -113,3 +115,4 @@ pv[r_index] <- mean(v[1, ])
 }
 
 plot(r_range, pv, type = 'l')
+abline(h = face_value_initial + C*dt)
