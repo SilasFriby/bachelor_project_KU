@@ -127,6 +127,8 @@ lines(sort(log_return), dnorm(sort(log_return), mean = (mu_mle - sigma_mle ^ 2 /
 
 #### compute option prices using black scholes and compare to observed prices
 
+
+
 data_option <- data_yahoo$data_option
 
 r <- 0 # constant market rate
@@ -159,86 +161,173 @@ for (option_type in c('calls')) {
 }
 
 
-## choose the n maturity dates with most observed option prices
+## choose the n maturity dates with most observed option prices and choose options which has a price above x
 
-n <- 9
+n <- 4
+x <- 100
+
 number_of_options <- sapply(names(price_bs_list), function(i) {
   dim(price_bs_list[[i]][['calls']])[1]
 })
 number_of_options <- rev(sort(number_of_options))[1:n]
-index <- which(names(price_bs_list) %in% names(number_of_options))
+number_of_options_index <- which(names(price_bs_list) %in% names(number_of_options))
+
+max_prices <- sapply(names(price_bs_list), function(i) {
+  max(price_bs_list[[i]][['calls']]$price) > x
+})
+max_prices_index <- which(max_prices)
+
+index_options <- Reduce(intersect, list(max_prices_index, number_of_options_index))# common elements
+
 
 
 ## plot observed prices and bs prices
 
-par( mfrow = c( 3, 3 ) )
-for (i in index) {
+par( mfrow = c( 2, 2 ) )
+for (i in index_options) {
   
   x_obs <- data_option[[names(data_option)[i]]][['calls']]$Strike
-  y_obs <- data_option[[names(data_option)[i]]][['calls']]$Ask
-  x_bs <- price_bs_list[[names(data_option)[i]]][['calls']]$strike
+  y_obs <- (data_option[[names(data_option)[i]]][['calls']]$Ask + data_option[[names(data_option)[i]]][['calls']]$Bid) / 2
   y_bs <- price_bs_list[[names(data_option)[i]]][['calls']]$price
+  mean_squared_error <- round(sum((y_obs - y_bs) ^ 2) / length(y_obs), 2)
+  bid_ask <- round(sum(data_option[[names(data_option)[i]]][['calls']]$Ask - data_option[[names(data_option)[i]]][['calls']]$Bid) / length(y_obs), 2)
   
-  plot(x_obs, y_obs, main = names(data_option)[i], xlab = 'strike', ylab = 'price')
-  points(x_bs, y_bs, type = 'l')
+  plot(x_obs, y_obs, 
+       main = paste('maturity =', names(data_option)[i], '\nmean squared error =', mean_squared_error, '\naverage bid-ask =', bid_ask, sep = ' '), 
+       xlab = 'strike', 
+       ylab = 'price')
+  points(x_obs, y_bs, type = 'l')
+  
+}
+
+
+## remove options that have not been traded (i.e vol = 0)
+
+par( mfrow = c( 2, 2 ) )
+for (i in index_options) {
+  
+  volume_index <- which(data_option[[names(data_option)[i]]][['calls']]$Vol > 0)
+  x_obs <- data_option[[names(data_option)[i]]][['calls']]$Strike[volume_index]
+  y_obs <- (data_option[[names(data_option)[i]]][['calls']]$Ask + data_option[[names(data_option)[i]]][['calls']]$Bid)[volume_index] / 2
+  y_bs <- price_bs_list[[names(data_option)[i]]][['calls']]$price[volume_index]
+  mean_squared_error <- round(sum((y_obs - y_bs) ^ 2) / length(y_obs), 2)
+  bid_ask <- round(sum(data_option[[names(data_option)[i]]][['calls']]$Ask - data_option[[names(data_option)[i]]][['calls']]$Bid) / length(y_obs), 2)
+  
+  plot(x_obs, y_obs, 
+       main = paste('maturity =', names(data_option)[i], '\nmean squared error =', mean_squared_error, '\naverage bid-ask =', bid_ask, sep = ' '), 
+       xlab = 'strike', 
+       ylab = 'price')
+  points(x_obs, y_bs, type = 'l')
   
 }
 
 
 
 
-# # plot((price_bs - spy_options_call$price) / price_bs)
-# 
-# 
-# 
-# ## implied volatility
-# 
-# 
-# vol_implied <- rep(NA, dim(spy_options_call)[1])
-# price_underlying <- data_stock$price[data_stock$date == max(data_stock$date)]
-# maturity <- spy_options_call$maturity[1] # same maturity for all
-# for (k in 1:dim(spy_options_call)[1]) {
-# 
-#   price_call_obs <- spy_options_call$price[k]
-#   
-#   strike <- spy_options_call$strike[k]
-# 
-#   f <- function(sigma) black_scholes_formula(ttm = maturity,
-#                                              s = price_underlying,
-#                                              K = strike,
-#                                              r = r,
-#                                              sigma,
-#                                              dividend = 0.02)
-# 
-#   vol_implied[k] <- uniroot(function(sigma) f(sigma) - price_call_obs, c(-1, 1))$r
-# 
-# 
-# }
-# 
-# 
-# plot(spy_options_call$strike / price_underlying, vol_implied, type = 'l')
-# abline(h = sigma_mle)
-# 
-# ## perfect match when using implied volatility - OF COURSE!
-# 
-# price_bs_implied <- rep(NA, dim(spy_options_call)[1])
-# for (k in 1:dim(spy_options_call)[1]) {
-#   
-#   strike <- spy_options_call$strike[k]
-#   
-#   # black-scholes call price
-#   price_bs_implied[k] <- black_scholes_formula(ttm = maturity,
-#                                        s = price_underlying, 
-#                                        K = strike, 
-#                                        r = r, 
-#                                        sigma = vol_implied[k],
-#                                        dividend = 0.02)
-#   
-# }
-# 
-# plot(price_bs_implied, type = 'l')
-# points(spy_options_call$price)
+#### implied volatility
 
+
+vol_implied_list <- list() 
+for (option_type in c('calls')) {
+  
+  for (list_date in names(data_option)[index_options]) { # number of different maturity dates
+    
+    volume_index <- which(data_option[[list_date]][['calls']]$Vol > 0)
+    data_temp <- data_option[[list_date]][[option_type]][volume_index, ]
+    vol_implied <- rep(NA, dim(data_temp)[1])
+    
+    for (k in 1:dim(data_temp)[1]) {
+      
+      f <- function(sigma) black_scholes_formula(ttm = data_temp$ttm[k],
+                                                 s = price_underlying, 
+                                                 K = data_temp$Strike[k], 
+                                                 r = r, 
+                                                 sigma,
+                                                 dividend = 0)
+      
+      price_obs <- mean(data_temp$Ask[k], data_temp$Bid[k])
+      vol_implied[k] <- uniroot(function(sigma) f(sigma) - price_obs, c(-10, 10))$r
+      
+    }
+    
+    vol_implied_list[[list_date]][[option_type]] <- data.frame(vol_implied = vol_implied, strike = data_temp$Strike)
+    
+  }
+  
+}
+
+
+## plot implied volatility
+
+
+par( mfrow = c( 2, 2 ) )
+for (i in index_options) {
+  
+  volume_index <- which(data_option[[names(data_option)[i]]][['calls']]$Vol > 0)
+  x <- data_option[[names(data_option)[i]]][['calls']]$Strike[volume_index] / price_underlying
+  y <- vol_implied_list[[names(data_option)[i]]][['calls']]$vol_implied
+  
+  plot(x, y, 
+       main = paste('maturity =', names(data_option)[i], sep = ' '), 
+       xlab = 'strike', 
+       ylab = 'implied volatility',
+       type = 'l')
+  abline(h = sigma_mle)
+  
+}
+
+
+plot(spy_options_call$strike / price_underlying, vol_implied, type = 'l')
+abline(h = sigma_mle)
+
+
+
+## perfect match when using implied volatility - OF COURSE! (sanity check)
+
+price_bs_implied_list <- list() 
+for (option_type in c('calls')) {
+  
+  for (list_date in names(data_option)[index_options]) { # number of different maturity dates
+    
+    volume_index <- which(data_option[[list_date]][['calls']]$Vol > 0)
+    data_temp <- data_option[[list_date]][[option_type]][volume_index, ]
+    price_bs_implied <- rep(NA, dim(data_temp)[1])
+    
+    for (k in 1:dim(data_temp)[1]) {
+
+      price_bs_implied[k] <- black_scholes_formula(ttm = data_temp$ttm[k],
+                                                   s = price_underlying,
+                                                   K = data_temp$Strike[k],
+                                                   r = r,
+                                                   sigma = vol_implied_list[[list_date]][[option_type]]$vol_implied[k],
+                                                   dividend = 0)
+      
+    }
+    
+    price_bs_implied_list[[list_date]][[option_type]] <- data.frame(price = price_bs_implied, strike = data_temp$Strike)
+    
+  }
+  
+}
+
+
+## plot implied prices
+
+par( mfrow = c( 2, 2 ) )
+for (i in index_options) {
+  
+  volume_index <- which(data_option[[names(data_option)[i]]][['calls']]$Vol > 0)
+  x <- data_option[[names(data_option)[i]]][['calls']]$Strike[volume_index]
+  y_obs <- (data_option[[names(data_option)[i]]][['calls']]$Ask + data_option[[names(data_option)[i]]][['calls']]$Bid)[volume_index] / 2
+  y_implied <- price_bs_implied_list[[names(data_option)[i]]][['calls']]$price
+  
+  plot(x, y_obs, 
+       main = paste('maturity =', names(data_option)[i], sep = ' '), 
+       xlab = 'strike', 
+       ylab = 'price')
+  points(x, y_implied, type = 'l')
+  
+}
 
 
 
