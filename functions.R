@@ -116,3 +116,61 @@ black_scholes_formula <- function(ttm, s, K, r, sigma, dividend) {
   return(call_price)
   
 }
+
+
+
+
+## stock prices from yahoo using the package quantmod
+
+#' Title
+#'
+#' @param symbol - data symbol, e.g '^OEX' for S&P 100 (charater) 
+#' @param option_maturity_year - maturity years for options, e.g c('2017', '2018') (character vector)
+#' @param data_source - where to extract data from. Works only for 'yahoo'
+#'
+#' @return list of symbol prices and list of option prices with the symbol as underlying
+
+yahoo_data_fct <- function(symbol, option_maturity_year, data_source = 'yahoo') {
+  
+  # stock prices
+  setSymbolLookup(symbol = data_source)
+  data_env <- new.env() # create environment
+  getSymbols(symbol, env = data_env)
+  data_name <- get(ls(data_env), envir = data_env)
+  
+  
+  
+  # convert data from xts table to data frame
+  data_stock <- as.data.frame(data_name) 
+  data_stock <- cbind.data.frame('date' = as.Date(row.names(data_stock)), data_stock)
+  rownames(data_stock) <- NULL
+  
+  # option prices
+  data_option <- getOptionChain(symbol, Exp = option_maturity_year , src = data_source)
+  
+  # add the two columns maturity date and time to maturity (in years)
+  for (i in 1:length(data_option)) {
+    
+    for (option_type in c('calls', 'puts')) {
+      
+      data_option[[names(data_option)[i]]][[option_type]] <- cbind.data.frame('option_symbol' = row.names(data_option[[names(data_option)[i]]][[option_type]]),
+                                                                              data_option[[names(data_option)[i]]][[option_type]])
+      row.names(data_option[[names(data_option)[i]]][[option_type]]) <- NULL
+      
+      today <- max(data_stock$date)
+      data_option[[names(data_option)[i]]][[option_type]]$maturity_date <- as.Date(substring(data_option[[names(data_option)[i]]][[option_type]]$option_symbol, nchar(ls(data_env)) + 1, nchar(ls(data_env)) + 6), format = '%y%m%d')
+      data_option[[names(data_option)[i]]][[option_type]]$ttm <- as.numeric((data_option[[names(data_option)[i]]][[option_type]]$maturity_date - today) / 365.25)
+      
+    }
+    
+  }
+  
+  
+  return(
+    list(
+      data_stock = data_stock,
+      data_option = data_option
+    )
+  )
+  
+} 

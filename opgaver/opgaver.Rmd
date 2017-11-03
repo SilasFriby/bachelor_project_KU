@@ -22,27 +22,29 @@ knitr::opts_chunk$set(echo = TRUE)
 
 En matematisk model for den finansielle verden vil som oftes begynde med en række antangelser - og vores model er ingen undtagelse.
 
-Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum $(\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)$ som bærer en Wiener proces $(W(t))_{t \geq 0}$. Her betegner $\Omega$ et udfaldsrum, $\mathcal{F}$ er en $\sigma$-algebra som repræsenterer målelige udfald, $\{\mathcal{F_t}\}_{t \geq 0}$ er en filtrering og $P$ er et sandsynlighedsmål. 
+.. filtrerede sandsynlighedsrum.. arbitragefrit og komplet marked.. to aktiver, et risikofrit og et risikofyldt.. Ækvivalent martingalmål.. Arbitragefri priser beregnes under ækvivalent martingalmål.. osv. osv. 
 
-Vi antager at markedet består af to aktiver, et risikofrit aktiv med prisproces $B$ og et risikofyldt aktiv med prisproces $S$. De to aktiver antages at have følgende dynamikker under $P$
+<!-- Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum $(\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)$ som bærer en Wiener proces $(W(t))_{t \geq 0}$. Her betegner $\Omega$ et udfaldsrum, $\mathcal{F}$ er en $\sigma$-algebra som repræsenterer målelige udfald, $\{\mathcal{F_t}\}_{t \geq 0}$ er en filtrering og $P$ er et sandsynlighedsmål.  -->
 
-\begin{aligned} 
-dB(t) &= r B(t) dt \\
-dS(t) &= \mu S(t) dt + \sigma S(t) dW^P(t),
-\end{aligned}
+<!-- Vi antager at markedet består af to aktiver, et risikofrit aktiv med prisproces $B$ og et risikofyldt aktiv med prisproces $S$. De to aktiver antages at have følgende dynamikker under $P$ -->
 
-hvor $r, \mu, \sigma \in \mathbb{R}$ og $W^P$ er en $P$-Wiener proces. Det vil være naturligt at tænke $B(t)$ som værdien af en bankbog på tid $t$ med rente $r$ og $S(t)$ som værdien af en aktie på tid $t$.
+<!-- \begin{aligned}  -->
+<!-- dB(t) &= r B(t) dt \\ -->
+<!-- dS(t) &= \mu S(t) dt + \sigma S(t) dW^P(t), -->
+<!-- \end{aligned} -->
 
-Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål $Q$. Det følger, at $Q$-dynamikken for $S$ er givet ved
+<!-- hvor $r, \mu, \sigma \in \mathbb{R}$ og $W^P$ er en $P$-Wiener proces. Det vil være naturligt at tænke $B(t)$ som værdien af en bankbog på tid $t$ med rente $r$ og $S(t)$ som værdien af en aktie på tid $t$. -->
 
-$$ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t), $$
+<!-- Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål $Q$. Det følger, at $Q$-dynamikken for $S$ er givet ved -->
 
-hvor $W^Q$ er en $Q$-Wiener proces.
+<!-- $$ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t), $$ -->
 
-På baggrund af ovenstående antagelser følger det yderligere, at den arbitragefri pris på tid $t$ for en kontrakt, som betaler $f(S(T))$ på tid $T$ er gived ved
+<!-- hvor $W^Q$ er en $Q$-Wiener proces. -->
 
-$$ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], $$
-hvor $E^Q$ betegner forventingen under sandsynlighedsmålet $Q$. Ovenstående formel er sommetider kendt som *risk netutral pricing*. 
+<!-- På baggrund af ovenstående antagelser følger det yderligere, at den arbitragefri pris på tid $t$ for en kontrakt, som betaler $f(S(T))$ på tid $T$ er gived ved -->
+
+<!-- $$ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], $$ -->
+<!-- hvor $E^Q$ betegner forventingen under sandsynlighedsmålet $Q$. Ovenstående formel er sommetider kendt som *risk netutral pricing*.  -->
 
 
 
@@ -55,9 +57,9 @@ Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget væ
 
 * Dynamikkerne for $B$ og $S$ medfører en underliggende antagelse om kontinuitet. Er denne kontinuitets-antagelse rimelig hvis vi ser på virkeligheden? 
 
-* Giv en intuitiv beskrivelse af hvad antagelserne om et arbitragefrit og komplet marked betyder? Er antagelserne rimelige i forhold til virkeligheden? 
+* Giv en intuitiv beskrivelse af hvad antagelserne om et arbitragefrit og komplet marked betyder? Stemmer disse antagelserne overens virkeligheden? 
 
-* Giv en intuitiv forklaring på det andet lighedstegn i risk netutral pricing ligningen. 
+* Giv en forklaring på hvorfor at $\mathcal{F_t}$ kan erstattes med $S(t) = s$ i risk netutral pricing ligningen. 
 
 * Det følger af ovenstående antagelser, at $S$ er en Markov proces. Synes dette at være en rimelig af denne antagelse i forhold virkeligheden?
 
@@ -68,7 +70,7 @@ Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget væ
     
     Under hvilke antagelser er ovenstående udsagn korrekte/forkerte?
 
-* I den *virkelige* verden, dvs. hos de finansielle virksomheder (fx banker, realkreditinstittuter og pensionsselskaberne) er *risk neutral pricing* det dominerede paradigme når den finansielle verden skal modelleres. Giv en intuitiv forklaring på hvorfor, at *risk neutral pricing* er "smart". Hint: hvad ville der ske hvis priser blev beregnet under det virkelige sandsynlighedsmål? Og hvorledes ville man være nødt til at korrigere denne fejl?
+* I den *virkelige* verden, dvs. hos de finansielle virksomheder (fx banker, realkreditinstittuter og pensionsselskaberne) er *risk neutral pricing* det dominerede paradigme når den finansielle verden skal modelleres. Giv en intuitiv forklaring på hvorfor, at *risk neutral pricing* er "smart". Hint: hvad ville der ske hvis priser blev beregnet under det virkelige sandsynlighedsmål? Og hvorledes ville man være nødt til at korrigere disse priser?
 
 * Vis matematisk hvilken fordeling processen $S$ følger under $P$ på baggrund af vores antagelser.
 
@@ -110,7 +112,7 @@ Z &= \mathtt{rnorm}(1, 0, 1) \\
 \hat{S}_t &= \hat{S}_{t-1} \exp(\mu - 0.5 \sigma ^ 2) \Delta t + \sigma \sqrt{\Delta t}Z),
 \end{aligned}
 
-* Er metoderne A og B rigtige/forkerte? Hvad ser vi når vi sammeligner metode A og B, hvis vi først lader $\Delta t = 1$ og derefter lader $\Delta t$ bliver mindre og mindre? Hvorfor?
+* Er metoderne A og B rigtige/forkerte? Hvad ser vi når vi sammeligner metode A og B, hvis vi først lader $\Delta t = 1$ og derefter lader $\Delta t$ bliver mindre og mindre?
 
 Nedenfor ses et tredje stykke pseudo-kode, der forsøger at simulere en GBM
 
@@ -129,32 +131,85 @@ Z &= \mathtt{rnorm}(1, 0, 1) \\
 * Lad $S(0) = 100, \mu = 0.03, \sigma = 0.1$. Skriv $\mathtt{R}$ kode, som simulerer og plotter 10 realiseringer af $S$ under $P$. Hvordan kan vi tolke plottet? Vil en simuleringssti kunne blive negativ og stemmer det overens med vores antagelser samt med virkeligheden?
 
 
-Hent observerede aktierpriser fra yahoo med kode SPY...
+### Estimation af GBM-parametre på baggrund af observerede aktiepriser 
 
-* Hvilke underliggende antagelser (nævn kun dem du ikke allerede har nævnt tidligere) følger med når vi antager at aktieprisen følger en GMB? (Hint: Se på $\log(S(t)/S(t-1)$). Lav vurdering af hvorledes de observerede aktiepriser opfylder disse antagelser? 
+Hent observerede aktierpriser fra yahoo for S&P 100 ved hjælp af pakken $\mathtt{quantmod}$ i $\mathtt{R}$..
 
-* Udled lukket-form udtryk for MLE'erne af $\mu$ og $\sigma$ og estimér dem på baggrund af data (både analytisk og numerisk).
+* Hvilke underliggende antagelser (nævn kun dem du ikke allerede har nævnt tidligere) følger med når vi antager at aktieprisen følger en GMB? (Hint: Se på $\log(S(t)/S(t-1)$). Lav en analyse af hvorledes de observerede aktiepriser opfylder disse antagelser. 
+
+* Udled lukket-form udtryk for MLE'erne af $\mu$ og $\sigma$
+
+* Estimér $\mu$ og $\sigma$ på baggrund af data (både analytisk og numerisk). Estimér parametrene to gange: 1) benyt al historik undtagen sidste dato 2) benyt kun historik fra år 2010 og frem undtagen sidste dato. (Vi vil senere gerne have muligheden for at måle hvor 'god'  modellen er til at forudsige optionspriser. Derfor ekskluderer vi den seneste observation fra data)
+
+* Hvordan adskiller estimaterne fra 1) og 2) sig? Er dette hvad vi forventede på baggrund af estimationsperioderne?  
 
 * Udled lukket-form udtryk for variansen på MLE'erne for $\mu$ og $\sigma$. Eftervis resultaterne vha. simulationer. Hvad kan vi konkudere udfra lukket-form udtrykkene?
 
-* Bør vi være bekymret for MLE'en på $\mu$ i forhold til prisning af finansielle derivater, som afhænger af $S$?
+* Bør vi være bekymret for vaiansen på MLE'en for $\mu$ i forhold til 1) forudsigelse af fremtidige aktiepriser? 2) prisning af finansielle derivater, som afhænger af $S$?
 
 
-### Europæiske optioner
+### Prisning af Europæisk call option ved brug af historisk volatilitet
 
 
-Hent observerede europæiske call/put optionspriser fra...
+Hent observerede europæiske call/put optionspriser for S&P 100 med udløbsdatoer i 2017 og 2018 ved hjælp af pakken $\mathtt{quantmod}$ i $\mathtt{R}$.. Vælg et passende renteniveau (fx $r = 0$)..
 
-* Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vores model *forventer*, hvilke optioner ønsker vi så at investere i?
+* Vælg estimaterne for driften  og volatiliteten fra 1) eller 2). Argumentér.
 
-* Lad $r = 0.01$. Bestem prisen på de valgte optioner vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen. (Hint: Tænk over om $S$ skal simuleres under $P$ eller $Q$)
+* Udregn priser på call optionerne vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen. (Hint: Tænk over om $S$ skal simuleres under $P$ eller $Q$)
 
-* Beregn *implied* volatilitet på baggrund af de observerede options priser. Er resultaterne i overensstemmelse med vores antagelser om volatiliteten?
+* Plot Black-Scholes priser sammen med observerede priser for en givet udløbsdato for forskellige strike værdier.
+
+* Lav en analyse af Black-Scholes modellens evne til af ramme observerede call options priser.   
+
+* Udvælg to til fire udløbsdatoer på baggrund af ovenstående analyse.
+
+
+* Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vores model *forventer*, hvilke call/put optioner ønsker vi så at investere i?
+
+
+### Implied volatilitet
+
+* Beregn *implied* volatilitet på baggrund af de observerede call options priser. Plot implied volatilitet mod strike delt med prisen på det underliggende.
+
+* Er implied vol i overensstemmelse med vores antagelser om volatiliteten i Black-Scholes modellen?
+
+* Lav et *sanity check* af de beregnede implied vol værdier, dvs. sammenlign black-scholes priser (beregnet på baggrund af implied vol) med observerede priser. Hvad forventer vi at se? Betyder dette, at vi har fundet en perfekt model til at forudsige call options priser? (Hint: hvad benyttede vi under bestemmelsen af implied vol?)
+
+* Giv en intuitiv fortolkning af historisk vol og implied vol, samt hvordan vi kan tænke på dem i forhold til $P$ og $Q$ mål.
+
+* Ligger black-scholes prisen beregnet ved brug af historisk vol generelt højere/lavere end den observerede pris? Kan vi forklare dette?
+
+* Antag, at vi befinder os i en Black-Scholes verden. Hvad skal der i såfald gælde om forholdet mellem historisk vol og implied vol.
+
+* Antag at Implied vol er markant højere end historisk vol for en given call option. Vil man i dette tilfælde antage at det er en fordelagtigt at sælge eller købe optionen? Giv en intuitiv forklaring.
+
+
+### Prisning af Europæisk call option ved brug af implied volatilitet
+
+Til at prise en europæisk call option ved brug af implied volatilitet skal vi have fat i historiske options priser. Kan vi får det????
+
+* Estimér implied vol på baggrund af de observerede call options priser (for de udvalgte call optioner) på et tidligere tidspunktet end den seneste dato i data. Vi får således et estimat for hver kombination af udløbsdato og strike.
+
+* Benyt estimaterne for implied vol til at beregne black-scholes prisen på den seneste dato i data og sammenlign med observerede priser.
+
+
+### Backtesting
+
+I ovenstående har vi analyseret black-scholes modellens evne til at forudsige call options priser givet historik for det underliggende aktiv, strike, tid til udløb og et niveau for den korte rente. MEN vi har blot lavet denne analyse for et enkelt tidspunkt. Vi ønsker nu at udvide analysen til flere tidspunkter for at få et bedre idé om Black-Scholes modellens evne til at forudsige call options priser.
+
+* Beskriv ideen med backtesting.
+
+* Udfør backtesting for black-scholes modellen med både historisk volatilitet og implied volatilitet.
+
+* Sammenlign Black-Scholes modellens evne til at forudsige call options priser ved brug af historisk vol og implied vol. Kan vi afgøre hvilken metode, der er bedst til at forudsige call options priser? Kan vi forklare hvorfor at den ene model er 'bedre' end den anden?
+
+
+
 
 
 ## Obligationer - en udvidelse af vores Economic Scenario Generator (ESG)
 
-Intro.. noget med lån.. noget med at vores antagelse om konstant korte rente, $r$, nu skal udvides.. Antag vasicek model.. blabla..
+Intro.. noget med at vores antagelse om konstant korte rente, $r$, nu skal udvides.. Antag vasicek model.. osv. osv...
 
 * Kan størrelsen $r$ observeres i den *virkelige* verden?
 
@@ -182,26 +237,43 @@ Indlæs rentedata fra amerikanske statsobligationer..
 
 * flere opgaver...
 
-## Forventet fremtidig indtjening, hedging og risikostyring...
+## Forventet fremtidig profit, hedging og risikostyring...
 
-Vi har nu skabt en ESG, som kan simulere markedsrenten, aktiepriser, obligationspriser og europæiske call- og putoptioner. Vi vil nu forsøge at benytte denne ESG til at udtale os om den forventede fremtidige indtjening for en given virksomhed.
+Vi har nu skabt en ESG, som kan simulere markedsrenten, aktiepriser, obligationspriser og priser for europæiske call- og putoptioner. Vi vil nu forsøge at benytte denne ESG til at forudsige den forventede fremtidige indtjening for en given virksomhed.
 
-### Forventet fremtidig indtjening
+### Forventet fremtidig profit
 
-$$
-E[ C(t + 1, S(t+1)) | \mathcal{F}_t ] = E[ E[e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t+1}] | \mathcal{F}_t] = E[ e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_t]
-$$
+Antag at vi betragter en virksomhed som har aktiverne blabla og passiverne blabla i dag.. For at bestemme nutidsværdien er firmaets forventede fremtidige profit skal vi på fremtidige tidspunkter $t_i$ beregne fimaets forventede balance (dvs. den forventede værdi af aktiver på tid $t_i$ minus den forventede værdi af passiver på tid $t_i$) og dernæst summere og tilbage-diskontere disse fremtidige balancer.. Vi ønsker at beregne nutidsværdien er firmaets forventede fremtidige profit ved hjælp af Monte Carlo simuleringer.. 
 
-hvor det sidste lighedstegn skyldes tower property.
+* Vis, at den arbitragefri pris på tid $t_i$ for at eje en europæisk call option på tid $t_{i+1}$ er lig med $E[ e^{-\int_{t_{i+1}}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t_i}]$.  
 
-Den forventede værdi af værdien af en option på tid $t+1$ kan således beregnes som en nutidsværdi med svagere diskontering.
+* Argumentér for at størrelsen $E[ e^{-\int_{t_{i+1}}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t_i}]$ kan beregnes ved hjælp af Monte Carlo simuleringer.
+
+* Beregn firmaets forventede fremtidige profit ved hjælp af Monte Carlo simuleringer. 
+
+<!-- $$ -->
+<!-- E[ C(t + 1, S(t+1)) | \mathcal{F}_t ] = E[ E[e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t+1}] | \mathcal{F}_t] = E[ e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_t] -->
+<!-- $$ -->
+
+<!-- hvor det sidste lighedstegn skyldes tower property. -->
+
+<!-- Den forventede værdi af værdien af en option på tid $t+1$ kan således beregnes som en nutidsværdi med svagere diskontering. -->
 
 
 ### Delta hedgning
 
+Blabla...
+
+
 ### Risikostyring - Value at Risk
 
 Vi forestiller os nu, at lovgivningen kræver, at virksomheden skal tilsidesætte en vis mængde kapital, således at risikoen or konkurs mindskes i dårlige tider på det finansielle marked. Helt konkret kræves det, at virksomheden tilsidesætter et beløb, som svarer til det værste tænkelige udfald af en 100 års begivenhed.
+
+* Beregn en profit/loss fordeling for firmaet...
+
+Firmaet er meget interesseret i, at mindske det beløb som lovgivningen kræver at de tilsidesætter..
+
+* Find på en strategi, som kan mindske det tilsidesatte beløb med $x$ procent..
 
 
 

@@ -137,26 +137,28 @@ $(document).ready(function () {
 <div id="modelantagelser" class="section level3">
 <h3>Modelantagelser</h3>
 <p>En matematisk model for den finansielle verden vil som oftes begynde med en række antangelser - og vores model er ingen undtagelse.</p>
-<p>Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum <span class="math inline">\((\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)\)</span> som bærer en Wiener proces <span class="math inline">\((W(t))_{t \geq 0}\)</span>. Her betegner <span class="math inline">\(\Omega\)</span> et udfaldsrum, <span class="math inline">\(\mathcal{F}\)</span> er en <span class="math inline">\(\sigma\)</span>-algebra som repræsenterer målelige udfald, <span class="math inline">\(\{\mathcal{F_t}\}_{t \geq 0}\)</span> er en filtrering og <span class="math inline">\(P\)</span> er et sandsynlighedsmål.</p>
-<p>Vi antager at markedet består af to aktiver, et risikofrit aktiv med prisproces <span class="math inline">\(B\)</span> og et risikofyldt aktiv med prisproces <span class="math inline">\(S\)</span>. De to aktiver antages at have følgende dynamikker under <span class="math inline">\(P\)</span></p>
-<span class="math display">\[\begin{aligned} 
-dB(t) &amp;= r B(t) dt \\
-dS(t) &amp;= \mu S(t) dt + \sigma S(t) dW^P(t),
-\end{aligned}\]</span>
-<p>hvor <span class="math inline">\(r, \mu, \sigma \in \mathbb{R}\)</span> og <span class="math inline">\(W^P\)</span> er en <span class="math inline">\(P\)</span>-Wiener proces. Det vil være naturligt at tænke <span class="math inline">\(B(t)\)</span> som værdien af en bankbog på tid <span class="math inline">\(t\)</span> med rente <span class="math inline">\(r\)</span> og <span class="math inline">\(S(t)\)</span> som værdien af en aktie på tid <span class="math inline">\(t\)</span>.</p>
-<p>Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål <span class="math inline">\(Q\)</span>. Det følger, at <span class="math inline">\(Q\)</span>-dynamikken for <span class="math inline">\(S\)</span> er givet ved</p>
-<p><span class="math display">\[ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t), \]</span></p>
-<p>hvor <span class="math inline">\(W^Q\)</span> er en <span class="math inline">\(Q\)</span>-Wiener proces.</p>
-<p>På baggrund af ovenstående antagelser følger det yderligere, at den arbitragefri pris på tid <span class="math inline">\(t\)</span> for en kontrakt, som betaler <span class="math inline">\(f(S(T))\)</span> på tid <span class="math inline">\(T\)</span> er gived ved</p>
-<p><span class="math display">\[ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], \]</span> hvor <span class="math inline">\(E^Q\)</span> betegner forventingen under sandsynlighedsmålet <span class="math inline">\(Q\)</span>. Ovenstående formel er sommetider kendt som <em>risk netutral pricing</em>.</p>
+<p>.. filtrerede sandsynlighedsrum.. arbitragefrit og komplet marked.. to aktiver, et risikofrit og et risikofyldt.. Ækvivalent martingalmål.. Arbitragefri priser beregnes under ækvivalent martingalmål.. osv. osv.</p>
+<!-- Vi betragter et finansielt market, hvor usikkerheden er opsummeret af det filtrerede sandsynlighedsrum $(\Omega, \mathcal{F}, \{\mathcal{F_t}\}_{t \geq 0}, P)$ som bærer en Wiener proces $(W(t))_{t \geq 0}$. Her betegner $\Omega$ et udfaldsrum, $\mathcal{F}$ er en $\sigma$-algebra som repræsenterer målelige udfald, $\{\mathcal{F_t}\}_{t \geq 0}$ er en filtrering og $P$ er et sandsynlighedsmål.  -->
+<!-- Vi antager at markedet består af to aktiver, et risikofrit aktiv med prisproces $B$ og et risikofyldt aktiv med prisproces $S$. De to aktiver antages at have følgende dynamikker under $P$ -->
+<!-- \begin{aligned}  -->
+<!-- dB(t) &= r B(t) dt \\ -->
+<!-- dS(t) &= \mu S(t) dt + \sigma S(t) dW^P(t), -->
+<!-- \end{aligned} -->
+<!-- hvor $r, \mu, \sigma \in \mathbb{R}$ og $W^P$ er en $P$-Wiener proces. Det vil være naturligt at tænke $B(t)$ som værdien af en bankbog på tid $t$ med rente $r$ og $S(t)$ som værdien af en aktie på tid $t$. -->
+<!-- Vi antager, at markedet er arbitragefrit og komplet, hvilket medfører at der eksisterer et unikt ækvivalent sandsynlighedsmål $Q$. Det følger, at $Q$-dynamikken for $S$ er givet ved -->
+<!-- $$ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t), $$ -->
+<!-- hvor $W^Q$ er en $Q$-Wiener proces. -->
+<!-- På baggrund af ovenstående antagelser følger det yderligere, at den arbitragefri pris på tid $t$ for en kontrakt, som betaler $f(S(T))$ på tid $T$ er gived ved -->
+<!-- $$ V(t) = e^{-r(T-t)}E^Q[f(S(T)) | \mathcal{F}_t] = e^{-r(T-t)}E^Q[f(S(T)) | S(t) = s], $$ -->
+<!-- hvor $E^Q$ betegner forventingen under sandsynlighedsmålet $Q$. Ovenstående formel er sommetider kendt som *risk netutral pricing*.  -->
 <div id="opgaver-1" class="section level4">
 <h4>OPGAVER</h4>
 <p>Ovenstående antagelser lyder jo alt sammen meget fint, men de er ikke meget værd, hvis man ikke forstår dem. Nedenstående spørgsmål har således til formål at skabe en intuition og forståelse bag antagelserne, samt at give indblik i hvorvidt antagelserne er meningsfulde.</p>
 <ul>
 <li><p>Hvordan kan vi fortolke filtreringen <span class="math inline">\(\mathcal{F_t}\)</span>?</p></li>
 <li><p>Dynamikkerne for <span class="math inline">\(B\)</span> og <span class="math inline">\(S\)</span> medfører en underliggende antagelse om kontinuitet. Er denne kontinuitets-antagelse rimelig hvis vi ser på virkeligheden?</p></li>
-<li><p>Giv en intuitiv beskrivelse af hvad antagelserne om et arbitragefrit og komplet marked betyder? Er antagelserne rimelige i forhold til virkeligheden?</p></li>
-<li><p>Giv en intuitiv forklaring på det andet lighedstegn i risk netutral pricing ligningen.</p></li>
+<li><p>Giv en intuitiv beskrivelse af hvad antagelserne om et arbitragefrit og komplet marked betyder? Stemmer disse antagelserne overens virkeligheden?</p></li>
+<li><p>Giv en forklaring på hvorfor at <span class="math inline">\(\mathcal{F_t}\)</span> kan erstattes med <span class="math inline">\(S(t) = s\)</span> i risk netutral pricing ligningen.</p></li>
 <li><p>Det følger af ovenstående antagelser, at <span class="math inline">\(S\)</span> er en Markov proces. Synes dette at være en rimelig af denne antagelse i forhold virkeligheden?</p></li>
 <li>Betragt følgende udsagn for prisen på tid <span class="math inline">\(t\)</span> af et fremtidigt cash flow
 <ul>
@@ -165,7 +167,7 @@ dS(t) &amp;= \mu S(t) dt + \sigma S(t) dW^P(t),
 <li>det forventede diskonterede cash flow betinget af informationen i markedet på tid <span class="math inline">\(t\)</span>.</li>
 </ul>
 <p>Under hvilke antagelser er ovenstående udsagn korrekte/forkerte?</p></li>
-<li><p>I den <em>virkelige</em> verden, dvs. hos de finansielle virksomheder (fx banker, realkreditinstittuter og pensionsselskaberne) er <em>risk neutral pricing</em> det dominerede paradigme når den finansielle verden skal modelleres. Giv en intuitiv forklaring på hvorfor, at <em>risk neutral pricing</em> er “smart”. Hint: hvad ville der ske hvis priser blev beregnet under det virkelige sandsynlighedsmål? Og hvorledes ville man være nødt til at korrigere denne fejl?</p></li>
+<li><p>I den <em>virkelige</em> verden, dvs. hos de finansielle virksomheder (fx banker, realkreditinstittuter og pensionsselskaberne) er <em>risk neutral pricing</em> det dominerede paradigme når den finansielle verden skal modelleres. Giv en intuitiv forklaring på hvorfor, at <em>risk neutral pricing</em> er “smart”. Hint: hvad ville der ske hvis priser blev beregnet under det virkelige sandsynlighedsmål? Og hvorledes ville man være nødt til at korrigere disse priser?</p></li>
 <li><p>Vis matematisk hvilken fordeling processen <span class="math inline">\(S\)</span> følger under <span class="math inline">\(P\)</span> på baggrund af vores antagelser.</p></li>
 </ul>
 </div>
@@ -206,7 +208,7 @@ Z &amp;= \mathtt{rnorm}(1, 0, 1) \\
 \hat{S}_t &amp;= \hat{S}_{t-1} \exp(\mu - 0.5 \sigma ^ 2) \Delta t + \sigma \sqrt{\Delta t}Z),
 \end{aligned}\]</span>
 <ul>
-<li>Er metoderne A og B rigtige/forkerte? Hvad ser vi når vi sammeligner metode A og B, hvis vi først lader <span class="math inline">\(\Delta t = 1\)</span> og derefter lader <span class="math inline">\(\Delta t\)</span> bliver mindre og mindre? Hvorfor?</li>
+<li>Er metoderne A og B rigtige/forkerte? Hvad ser vi når vi sammeligner metode A og B, hvis vi først lader <span class="math inline">\(\Delta t = 1\)</span> og derefter lader <span class="math inline">\(\Delta t\)</span> bliver mindre og mindre?</li>
 </ul>
 <p>Nedenfor ses et tredje stykke pseudo-kode, der forsøger at simulere en GBM</p>
 </div>
@@ -222,28 +224,65 @@ Z &amp;= \mathtt{rnorm}(1, 0, 1) \\
 <li><p>Er metode C rigtig/forkert?</p></li>
 <li><p>Lad <span class="math inline">\(S(0) = 100, \mu = 0.03, \sigma = 0.1\)</span>. Skriv <span class="math inline">\(\mathtt{R}\)</span> kode, som simulerer og plotter 10 realiseringer af <span class="math inline">\(S\)</span> under <span class="math inline">\(P\)</span>. Hvordan kan vi tolke plottet? Vil en simuleringssti kunne blive negativ og stemmer det overens med vores antagelser samt med virkeligheden?</p></li>
 </ul>
-<p>Hent observerede aktierpriser fra yahoo med kode SPY…</p>
+</div>
+</div>
+<div id="estimation-af-gbm-parametre-pa-baggrund-af-observerede-aktiepriser" class="section level3">
+<h3>Estimation af GBM-parametre på baggrund af observerede aktiepriser</h3>
+<p>Hent observerede aktierpriser fra yahoo for S&amp;P 100 ved hjælp af pakken <span class="math inline">\(\mathtt{quantmod}\)</span> i <span class="math inline">\(\mathtt{R}\)</span>..</p>
 <ul>
-<li><p>Hvilke underliggende antagelser (nævn kun dem du ikke allerede har nævnt tidligere) følger med når vi antager at aktieprisen følger en GMB? (Hint: Se på <span class="math inline">\(\log(S(t)/S(t-1)\)</span>). Lav vurdering af hvorledes de observerede aktiepriser opfylder disse antagelser?</p></li>
-<li><p>Udled lukket-form udtryk for MLE’erne af <span class="math inline">\(\mu\)</span> og <span class="math inline">\(\sigma\)</span> og estimér dem på baggrund af data (både analytisk og numerisk).</p></li>
+<li><p>Hvilke underliggende antagelser (nævn kun dem du ikke allerede har nævnt tidligere) følger med når vi antager at aktieprisen følger en GMB? (Hint: Se på <span class="math inline">\(\log(S(t)/S(t-1)\)</span>). Lav en analyse af hvorledes de observerede aktiepriser opfylder disse antagelser.</p></li>
+<li><p>Udled lukket-form udtryk for MLE’erne af <span class="math inline">\(\mu\)</span> og <span class="math inline">\(\sigma\)</span></p></li>
+<li><p>Estimér <span class="math inline">\(\mu\)</span> og <span class="math inline">\(\sigma\)</span> på baggrund af data (både analytisk og numerisk). Estimér parametrene to gange: 1) benyt al historik undtagen sidste dato 2) benyt kun historik fra år 2010 og frem undtagen sidste dato. (Vi vil senere gerne have muligheden for at måle hvor ‘god’ modellen er til at forudsige optionspriser. Derfor ekskluderer vi den seneste observation fra data)</p></li>
+<li><p>Hvordan adskiller estimaterne fra 1) og 2) sig? Er dette hvad vi forventede på baggrund af estimationsperioderne?</p></li>
 <li><p>Udled lukket-form udtryk for variansen på MLE’erne for <span class="math inline">\(\mu\)</span> og <span class="math inline">\(\sigma\)</span>. Eftervis resultaterne vha. simulationer. Hvad kan vi konkudere udfra lukket-form udtrykkene?</p></li>
-<li><p>Bør vi være bekymret for MLE’en på <span class="math inline">\(\mu\)</span> i forhold til prisning af finansielle derivater, som afhænger af <span class="math inline">\(S\)</span>?</p></li>
+<li><p>Bør vi være bekymret for vaiansen på MLE’en for <span class="math inline">\(\mu\)</span> i forhold til 1) forudsigelse af fremtidige aktiepriser? 2) prisning af finansielle derivater, som afhænger af <span class="math inline">\(S\)</span>?</p></li>
 </ul>
 </div>
-</div>
-<div id="europiske-optioner" class="section level3">
-<h3>Europæiske optioner</h3>
-<p>Hent observerede europæiske call/put optionspriser fra…</p>
+<div id="prisning-af-europisk-call-option-ved-brug-af-historisk-volatilitet" class="section level3">
+<h3>Prisning af Europæisk call option ved brug af historisk volatilitet</h3>
+<p>Hent observerede europæiske call/put optionspriser for S&amp;P 100 med udløbsdatoer i 2017 og 2018 ved hjælp af pakken <span class="math inline">\(\mathtt{quantmod}\)</span> i <span class="math inline">\(\mathtt{R}\)</span>.. Vælg et passende renteniveau (fx <span class="math inline">\(r = 0\)</span>)..</p>
 <ul>
-<li><p>Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vores model <em>forventer</em>, hvilke optioner ønsker vi så at investere i?</p></li>
-<li><p>Lad <span class="math inline">\(r = 0.01\)</span>. Bestem prisen på de valgte optioner vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen. (Hint: Tænk over om <span class="math inline">\(S\)</span> skal simuleres under <span class="math inline">\(P\)</span> eller <span class="math inline">\(Q\)</span>)</p></li>
-<li><p>Beregn <em>implied</em> volatilitet på baggrund af de observerede options priser. Er resultaterne i overensstemmelse med vores antagelser om volatiliteten?</p></li>
+<li><p>Vælg estimaterne for driften og volatiliteten fra 1) eller 2). Argumentér.</p></li>
+<li><p>Udregn priser på call optionerne vha. simuleringer. Sammenlign de fundne priser med Black-Scholes formlen. (Hint: Tænk over om <span class="math inline">\(S\)</span> skal simuleres under <span class="math inline">\(P\)</span> eller <span class="math inline">\(Q\)</span>)</p></li>
+<li><p>Plot Black-Scholes priser sammen med observerede priser for en givet udløbsdato for forskellige strike værdier.</p></li>
+<li><p>Lav en analyse af Black-Scholes modellens evne til af ramme observerede call options priser.</p></li>
+<li><p>Udvælg to til fire udløbsdatoer på baggrund af ovenstående analyse.</p></li>
+<li><p>Givet strike og udløb på de observerede optioner, samt en tro på at det fremtidige marked ser ud som vores model <em>forventer</em>, hvilke call/put optioner ønsker vi så at investere i?</p></li>
+</ul>
+</div>
+<div id="implied-volatilitet" class="section level3">
+<h3>Implied volatilitet</h3>
+<ul>
+<li><p>Beregn <em>implied</em> volatilitet på baggrund af de observerede call options priser. Plot implied volatilitet mod strike delt med prisen på det underliggende.</p></li>
+<li><p>Er implied vol i overensstemmelse med vores antagelser om volatiliteten i Black-Scholes modellen?</p></li>
+<li><p>Lav et <em>sanity check</em> af de beregnede implied vol værdier, dvs. sammenlign black-scholes priser (beregnet på baggrund af implied vol) med observerede priser. Hvad forventer vi at se? Betyder dette, at vi har fundet en perfekt model til at forudsige call options priser? (Hint: hvad benyttede vi under bestemmelsen af implied vol?)</p></li>
+<li><p>Giv en intuitiv fortolkning af historisk vol og implied vol, samt hvordan vi kan tænke på dem i forhold til <span class="math inline">\(P\)</span> og <span class="math inline">\(Q\)</span> mål.</p></li>
+<li><p>Ligger black-scholes prisen beregnet ved brug af historisk vol generelt højere/lavere end den observerede pris? Kan vi forklare dette?</p></li>
+<li><p>Antag, at vi befinder os i en Black-Scholes verden. Hvad skal der i såfald gælde om forholdet mellem historisk vol og implied vol.</p></li>
+<li><p>Antag at Implied vol er markant højere end historisk vol for en given call option. Vil man i dette tilfælde antage at det er en fordelagtigt at sælge eller købe optionen? Giv en intuitiv forklaring.</p></li>
+</ul>
+</div>
+<div id="prisning-af-europisk-call-option-ved-brug-af-implied-volatilitet" class="section level3">
+<h3>Prisning af Europæisk call option ved brug af implied volatilitet</h3>
+<p>Til at prise en europæisk call option ved brug af implied volatilitet skal vi have fat i historiske options priser. Kan vi får det????</p>
+<ul>
+<li><p>Estimér implied vol på baggrund af de observerede call options priser (for de udvalgte call optioner) på et tidligere tidspunktet end den seneste dato i data. Vi får således et estimat for hver kombination af udløbsdato og strike.</p></li>
+<li><p>Benyt estimaterne for implied vol til at beregne black-scholes prisen på den seneste dato i data og sammenlign med observerede priser.</p></li>
+</ul>
+</div>
+<div id="backtesting" class="section level3">
+<h3>Backtesting</h3>
+<p>I ovenstående har vi analyseret black-scholes modellens evne til at forudsige call options priser givet historik for det underliggende aktiv, strike, tid til udløb og et niveau for den korte rente. MEN vi har blot lavet denne analyse for et enkelt tidspunkt. Vi ønsker nu at udvide analysen til flere tidspunkter for at få et bedre idé om Black-Scholes modellens evne til at forudsige call options priser.</p>
+<ul>
+<li><p>Beskriv ideen med backtesting.</p></li>
+<li><p>Udfør backtesting for black-scholes modellen med både historisk volatilitet og implied volatilitet.</p></li>
+<li><p>Sammenlign Black-Scholes modellens evne til at forudsige call options priser ved brug af historisk vol og implied vol. Kan vi afgøre hvilken metode, der er bedst til at forudsige call options priser? Kan vi forklare hvorfor at den ene model er ‘bedre’ end den anden?</p></li>
 </ul>
 </div>
 </div>
 <div id="obligationer---en-udvidelse-af-vores-economic-scenario-generator-esg" class="section level2">
 <h2>Obligationer - en udvidelse af vores Economic Scenario Generator (ESG)</h2>
-<p>Intro.. noget med lån.. noget med at vores antagelse om konstant korte rente, <span class="math inline">\(r\)</span>, nu skal udvides.. Antag vasicek model.. blabla..</p>
+<p>Intro.. noget med at vores antagelse om konstant korte rente, <span class="math inline">\(r\)</span>, nu skal udvides.. Antag vasicek model.. osv. osv…</p>
 <ul>
 <li><p>Kan størrelsen <span class="math inline">\(r\)</span> observeres i den <em>virkelige</em> verden?</p></li>
 <li><p>Hvorfor er obligationspriser ikke unikt bestemt af den korte rentes <span class="math inline">\(P\)</span>-dynamik?</p></li>
@@ -262,23 +301,37 @@ Z &amp;= \mathtt{rnorm}(1, 0, 1) \\
 <li><p>flere opgaver…</p></li>
 </ul>
 </div>
-<div id="forventet-fremtidig-indtjening-hedging-og-risikostyring" class="section level2">
-<h2>Forventet fremtidig indtjening, hedging og risikostyring…</h2>
-<p>Vi har nu skabt en ESG, som kan simulere markedsrenten, aktiepriser, obligationspriser og europæiske call- og putoptioner. Vi vil nu forsøge at benytte denne ESG til at udtale os om den forventede fremtidige indtjening for en given virksomhed.</p>
-<div id="forventet-fremtidig-indtjening" class="section level3">
-<h3>Forventet fremtidig indtjening</h3>
-<p><span class="math display">\[
-E[ C(t + 1, S(t+1)) | \mathcal{F}_t ] = E[ E[e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t+1}] | \mathcal{F}_t] = E[ e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_t]
-\]</span></p>
-<p>hvor det sidste lighedstegn skyldes tower property.</p>
-<p>Den forventede værdi af værdien af en option på tid <span class="math inline">\(t+1\)</span> kan således beregnes som en nutidsværdi med svagere diskontering.</p>
+<div id="forventet-fremtidig-profit-hedging-og-risikostyring" class="section level2">
+<h2>Forventet fremtidig profit, hedging og risikostyring…</h2>
+<p>Vi har nu skabt en ESG, som kan simulere markedsrenten, aktiepriser, obligationspriser og priser for europæiske call- og putoptioner. Vi vil nu forsøge at benytte denne ESG til at forudsige den forventede fremtidige indtjening for en given virksomhed.</p>
+<div id="forventet-fremtidig-profit" class="section level3">
+<h3>Forventet fremtidig profit</h3>
+<p>Antag at vi betragter en virksomhed som har aktiverne blabla og passiverne blabla i dag.. For at bestemme nutidsværdien er firmaets forventede fremtidige profit skal vi på fremtidige tidspunkter <span class="math inline">\(t_i\)</span> beregne fimaets forventede balance (dvs. den forventede værdi af aktiver på tid <span class="math inline">\(t_i\)</span> minus den forventede værdi af passiver på tid <span class="math inline">\(t_i\)</span>) og dernæst summere og tilbage-diskontere disse fremtidige balancer.. Vi ønsker at beregne nutidsværdien er firmaets forventede fremtidige profit ved hjælp af Monte Carlo simuleringer..</p>
+<ul>
+<li><p>Vis, at den arbitragefri pris på tid <span class="math inline">\(t_i\)</span> for at eje en europæisk call option på tid <span class="math inline">\(t_{i+1}\)</span> er lig med <span class="math inline">\(E[ e^{-\int_{t_{i+1}}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t_i}]\)</span>.</p></li>
+<li><p>Argumentér for at størrelsen <span class="math inline">\(E[ e^{-\int_{t_{i+1}}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t_i}]\)</span> kan beregnes ved hjælp af Monte Carlo simuleringer.</p></li>
+<li><p>Beregn firmaets forventede fremtidige profit ved hjælp af Monte Carlo simuleringer.</p></li>
+</ul>
+<!-- $$ -->
+<!-- E[ C(t + 1, S(t+1)) | \mathcal{F}_t ] = E[ E[e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_{t+1}] | \mathcal{F}_t] = E[ e^{-\int_{t+1}^T r(s) ds} max(S(T) - K, 0) | \mathcal{F}_t] -->
+<!-- $$ -->
+<!-- hvor det sidste lighedstegn skyldes tower property. -->
+<!-- Den forventede værdi af værdien af en option på tid $t+1$ kan således beregnes som en nutidsværdi med svagere diskontering. -->
 </div>
 <div id="delta-hedgning" class="section level3">
 <h3>Delta hedgning</h3>
+<p>Blabla…</p>
 </div>
 <div id="risikostyring---value-at-risk" class="section level3">
 <h3>Risikostyring - Value at Risk</h3>
 <p>Vi forestiller os nu, at lovgivningen kræver, at virksomheden skal tilsidesætte en vis mængde kapital, således at risikoen or konkurs mindskes i dårlige tider på det finansielle marked. Helt konkret kræves det, at virksomheden tilsidesætter et beløb, som svarer til det værste tænkelige udfald af en 100 års begivenhed.</p>
+<ul>
+<li>Beregn en profit/loss fordeling for firmaet…</li>
+</ul>
+<p>Firmaet er meget interesseret i, at mindske det beløb som lovgivningen kræver at de tilsidesætter..</p>
+<ul>
+<li>Find på en strategi, som kan mindske det tilsidesatte beløb med <span class="math inline">\(x\)</span> procent..</li>
+</ul>
 </div>
 </div>
 <div id="udvidelser-til-den-nrdede-studerende" class="section level2">
