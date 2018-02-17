@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-# Model Assumptions
+# Model Assumptions {#sec:model-assumptions}
 
 $~$
 
@@ -51,7 +51,7 @@ dS(t) &= \mu S(t) dt + \sigma S(t) dW(t)
 (\#eq:p-dynamics)
 \end{equation}
 
-where $r$, $\mu$ and $\sigma$ are real constants. We may think of the risk-free asset as a bank account with a short rate of interest $r$, and the risky asset as a stock.
+where $r, \mu \in \mathbb{R}$  and $\sigma \in \mathbb{R}_{+}$ are constant. We may think of the risk-free asset as a bank account with a short rate of interest $r$, and the risky asset as a stock.
 
 We assume that the market is free of arbitrage and complete, which implies the existence of a unique equivalent martingale measure, which we denote by $Q$. Furthermore it can be shown that the $Q$- dynamics of the stock price is given by
 
@@ -76,13 +76,15 @@ where $E^Q$ denotes the expectation under the measure $Q$. Equation \@ref(eq:ris
 
 $~$
 
-# Exercises {-}
+# Exercises: Model Assumptions {-}
+
+$~$
 
 The above all sounds quite fancy. However, it does not contain much value unless we understand what it means. Hence, the main intention of the questions below are to create an intuitive understanding of the above. Furthermore, we wish to asses the meaningfullness of the assumptions in regards to the real world which we attempt to model.  
 
 1.1 Give an intuitive interretation of the above assumptions. For example: what is the intuition behind equation \@ref(eq:filtration), \@ref(eq:sigma) and \@ref(eq:p-dynamics)?
 
-_1.2 Discuss the meaningfullness of the assumptions in regards to the real world which we attempt to model. For example: is it reasonable to assume that the stock price is continuous? Furthermore, explain the what we mean by a arbitrage-free and complete market. Are these assumptions reasonable? You may also start a discussion of reality versus tractability in mathmatical finance modelling.    
+1.2 Discuss the meaningfullness of the assumptions in regards to the real world which we attempt to model. For example: is it reasonable to assume that the stock price is continuous? Furthermore, explain the what we mean by a arbitrage-free and complete market. Are these assumptions reasonable? You may also start a discussion of reality versus tractability in mathmatical finance modelling.    
 
 1.3 What underlying assumptions imply the second equality sign of equation \@ref(eq:risk-neutral)?
 
@@ -99,14 +101,61 @@ _1.2 Discuss the meaningfullness of the assumptions in regards to the real world
 Under what assumptions are the above statements true/false?
 
 
+$~$
+
+# Geometric Brownian Motion {#sec:GBM}
+
+$~$
+
+In section \@ref(sec:model-assumptions) we assume that the stock price follows a Geometric Brownian Motion (GBM), cf. the dynamics for the stock price in equation \@ref(eq:p-dynamics). Assuming that the inital value of the stock price is given by $S(0) = s$ it can be shown that
+
+\begin{equation}
+S(t) = s \cdot e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W(t)}
+(\#eq:GBM)
+\end{equation}
+
+The parameters $\mu$ and $\sigma$ are often called the drift and volatility, respectively.
+
+.. write something about a statictical model and the distribution of MLEs
+
+# Exercises: Geometric Brownian Motion {-}
+
+2.1 How may we interpret the drift and volatility parameters? For example: how does the sign of the drift and the size of the volatility influence the evolution of the stock price over time?
+
+2.2 Derive the stock price distribution under $P$. Furthermore, show what distribution the log-return $\log(S(t)/S(t-1))$ follows?
+
+Download observed prices for the stock index S&P 100. This can for example be down by using the $\texttt{R}$ package $\texttt{quantmod}$. 
+
+2.3 Perform an analysis, based on the observed prices, which investigates whether or not a GBM model for the stock index price seems to be a reasonable model. 
+
+2.4 Derive closed-form expressions for the maximum likelihood estimators, $\hat{\mu}$ and $\hat{\sigma}$, of $\mu$ and $\sigma$.
+
+2.5 Compute $\hat{\mu}$ and $\hat{\sigma}$ based on observed stock index prices. Perform a sanity check by estimating the parameters using both numerical and analytical methods. Repeat the estimation process twice: (i) using all observations and (ii) using only observations after year 2010. 
+
+2.6 How do the estimates from (i) and (ii) differ from each other? Is this what we would expect based on the observation periods?
+
+2.7 Derive closed-form expressions for the variance of $\hat{\mu}$ and $\hat{\sigma}$. Should we be worried about the variance of $\mu$ in respect to (i) the prediction of future stock prices? (ii) risk-neutral pricing of financial derivatives, which depends on the stock price?
+
+2.8 Argue that the MLEs of $\mu$ and $\sigma$ are asymptotic normally distributed. Furthermore, explain why it is convinient to have an idea of the distribution of ones estimators.  
+
+2.9 Imagine the hypothetical situation that our estimated GMB for the stock price fitted the oberseved prices perfectly. Would this enable us to conclude that our model was perfect? Hint: recall that we model the stock price as a stochastic process. Hence the observed prices are simply one realization of this process.   
 
 
-# Geometric Brownian Motion
+
+$~$
+
+# Monte Carlo Simulation
+
+$~$
+
+...
+
+$~$
 
 # Exercises {-}
 
-# MOnte Carlo Simulation
+$~$
 
-# Exercises {-}
+In continuation of 2.8 show, using simulations, that the MLEs of $\mu$ and $\sigma$ from section \@ref(sec:GBM) do in fact seem to be asymptotic normally distributed. Furthermore,  
 
 

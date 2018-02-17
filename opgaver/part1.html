@@ -131,7 +131,7 @@ $(document).ready(function () {
 <!--   TeX: { equationNumbers: { autoNumber: "AMS" } } -->
 <!-- }); -->
 <!-- </script> -->
-<div id="model-assumptions" class="section level1">
+<div id="sec:model-assumptions" class="section level1">
 <h1><span class="header-section-number">1</span> Model Assumptions</h1>
 <p><span class="math inline">\(~\)</span></p>
 <p>We consider a financial market, where the uncertainty is summarized by the filltered probability space <span class="math inline">\((\Omega, \mathcal{F}, \{\mathcal{F}_t\}_{t \geq 0}, P)\)</span> carrying a Wiener process <span class="math inline">\((W(t))_{t \geq 0}\)</span>. Here <span class="math inline">\(\Omega\)</span> denotes the state space, <span class="math inline">\(\mathcal{F}\)</span> is a <span class="math inline">\(\sigma\)</span>-algebra representing measurable events, <span class="math inline">\(\{\mathcal{F}_t\}_{t \geq 0}\)</span> denotes a filtration, which we may think of as a flow of information, and at last <span class="math inline">\(P\)</span> denotes a probability measure. We may think of the probability measure <span class="math inline">\(P\)</span> as the real-world measure. Our only source of uncertainty originates from the Wiener process and we therefore assume that the filtration is defined by</p>
@@ -153,7 +153,7 @@ dS(t) &amp;= \mu S(t) dt + \sigma S(t) dW(t)
 \end{split}
 \tag{1.3}
 \end{equation}\]</span>
-<p>where <span class="math inline">\(r\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> are real constants. We may think of the risk-free asset as a bank account with a short rate of interest <span class="math inline">\(r\)</span>, and the risky asset as a stock.</p>
+<p>where <span class="math inline">\(r, \mu \in \mathbb{R}\)</span> and <span class="math inline">\(\sigma \in \mathbb{R}_{+}\)</span> are constant. We may think of the risk-free asset as a bank account with a short rate of interest <span class="math inline">\(r\)</span>, and the risky asset as a stock.</p>
 <p>We assume that the market is free of arbitrage and complete, which implies the existence of a unique equivalent martingale measure, which we denote by <span class="math inline">\(Q\)</span>. Furthermore it can be shown that the <span class="math inline">\(Q\)</span>- dynamics of the stock price is given by</p>
 <span class="math display" id="eq:q-dynamics">\[\begin{equation}
 dS(t) = r S(t) dt + \sigma S(t) dW^Q(t)
@@ -171,28 +171,53 @@ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t)
 <p>where <span class="math inline">\(E^Q\)</span> denotes the expectation under the measure <span class="math inline">\(Q\)</span>. Equation <a href="#eq:risk-neutral">(1.5)</a> is often called a <em>risk-neutral</em> pricing equation.</p>
 <p><span class="math inline">\(~\)</span></p>
 </div>
-<div id="exercises" class="section level1 unnumbered">
-<h1>Exercises</h1>
+<div id="exercises-model-assumptions" class="section level1 unnumbered">
+<h1>Exercises: Model Assumptions</h1>
 <p>The above all sounds quite fancy. However, it does not contain much value unless we understand what it means. Hence, the main intention of the questions below are to create an intuitive understanding of the above. Furthermore, we wish to asses the meaningfullness of the assumptions in regards to the real world which we attempt to model.</p>
-<p>_1.1 List item__ Give an intuitive interretation of the above assumptions. For example: what is the intuition behind equation <a href="#eq:filtration">(1.1)</a>, <a href="#eq:sigma">(1.2)</a> and <a href="#eq:p-dynamics">(1.3)</a>?</p>
-<p>_1.2 Discuss the meaningfullness of the assumptions in regards to the real world which we attempt to model. For example: is it reasonable to assume that the stock price is continuous? Furthermore, explain the what we mean by a arbitrage-free and complete market. Are these assumptions reasonable? You may also start a discussion of reality versus tractability in mathmatical finance modelling.</p>
+<p>1.1 Give an intuitive interretation of the above assumptions. For example: what is the intuition behind equation <a href="#eq:filtration">(1.1)</a>, <a href="#eq:sigma">(1.2)</a> and <a href="#eq:p-dynamics">(1.3)</a>?</p>
+<p>1.2 Discuss the meaningfullness of the assumptions in regards to the real world which we attempt to model. For example: is it reasonable to assume that the stock price is continuous? Furthermore, explain the what we mean by a arbitrage-free and complete market. Are these assumptions reasonable? You may also start a discussion of reality versus tractability in mathmatical finance modelling.</p>
 <p>1.3 What underlying assumptions imply the second equality sign of equation <a href="#eq:risk-neutral">(1.5)</a>?</p>
 <p>1.4 Give an intuitive interpretation of the risk-neutral pricing equation <a href="#eq:risk-neutral">(1.5)</a>. Include an explanation of why arbitrage-free prices are not expectations under the real world measure <span class="math inline">\(P\)</span>. Hint: how much would you pay (today) for a simple contract with the payoff 100 dkr. or 0 dkr. (tomorrow) each outcome with a probability of <span class="math inline">\(50\%\)</span> under <span class="math inline">\(P\)</span>? It depends on whether you are risk averse or risk loving.</p>
 <p>1.5 In the financial world (i.e. at banks, mortgage-banks and pension funds) risk-neutral pricing is the dominating paradigme. Explain why risk-neutral pricing is “smart”. Hint: think of market prices as an expression of a collective risk profile.</p>
 <p>1.6 Consider the following statements about the arbitrage-free price at time <span class="math inline">\(t\)</span> of some future cash flow * the arbitrage-free price at time <span class="math inline">\(t\)</span> equals the discounted cash flow * the arbitrage-free price at time <span class="math inline">\(t\)</span> equals the discounted expected cash flow conditioned on the market information at time <span class="math inline">\(t\)</span> under <span class="math inline">\(Q\)</span> * the arbitrage-free price at time <span class="math inline">\(t\)</span> equals the expected discounted cash flow conditioned on the market information at time <span class="math inline">\(t\)</span> under <span class="math inline">\(P\)</span> * the arbitrage-free price at time <span class="math inline">\(t\)</span> equals the expected discounted cash flow conditioned on the market information at time <span class="math inline">\(t\)</span> under <span class="math inline">\(Q\)</span></p>
 <p>Under what assumptions are the above statements true/false?</p>
+<p><span class="math inline">\(~\)</span></p>
 </div>
-<div id="geometric-brownian-motion" class="section level1">
+<div id="sec:GBM" class="section level1">
 <h1><span class="header-section-number">2</span> Geometric Brownian Motion</h1>
+<p><span class="math inline">\(~\)</span></p>
+<p>In section <a href="#sec:model-assumptions">1</a> we assume that the stock price follows a Geometric Brownian Motion (GBM), cf. the dynamics for the stock price in equation <a href="#eq:p-dynamics">(1.3)</a>. Assuming that the inital value of the stock price is given by <span class="math inline">\(S(0) = s\)</span> it can be shown that</p>
+<span class="math display" id="eq:GBM">\[\begin{equation}
+S(t) = s \cdot e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W(t)}
+\tag{2.1}
+\end{equation}\]</span>
+<p>The parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> are often called the drift and volatility, respectively.</p>
+<p>.. write something about a statictical model and the distribution of MLEs</p>
 </div>
-<div id="exercises-1" class="section level1 unnumbered">
-<h1>Exercises</h1>
+<div id="exercises-geometric-brownian-motion" class="section level1 unnumbered">
+<h1>Exercises: Geometric Brownian Motion</h1>
+<p>2.1 How may we interpret the drift and volatility parameters? For example: how does the sign of the drift and the size of the volatility influence the evolution of the stock price over time?</p>
+<p>2.2 Derive the stock price distribution under <span class="math inline">\(P\)</span>. Furthermore, show what distribution the log-return <span class="math inline">\(\log(S(t)/S(t-1))\)</span> follows?</p>
+<p>Download observed prices for the stock index S&amp;P 100. This can for example be down by using the <span class="math inline">\(\texttt{R}\)</span> package <span class="math inline">\(\texttt{quantmod}\)</span>.</p>
+<p>2.3 Perform an analysis, based on the observed prices, which investigates whether or not a GBM model for the stock index price seems to be a reasonable model.</p>
+<p>2.4 Derive closed-form expressions for the maximum likelihood estimators, <span class="math inline">\(\hat{\mu}\)</span> and <span class="math inline">\(\hat{\sigma}\)</span>, of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.</p>
+<p>2.5 Compute <span class="math inline">\(\hat{\mu}\)</span> and <span class="math inline">\(\hat{\sigma}\)</span> based on observed stock index prices. Perform a sanity check by estimating the parameters using both numerical and analytical methods. Repeat the estimation process twice: (i) using all observations and (ii) using only observations after year 2010.</p>
+<p>2.6 How do the estimates from (i) and (ii) differ from each other? Is this what we would expect based on the observation periods?</p>
+<p>2.7 Derive closed-form expressions for the variance of <span class="math inline">\(\hat{\mu}\)</span> and <span class="math inline">\(\hat{\sigma}\)</span>. Should we be worried about the variance of <span class="math inline">\(\mu\)</span> in respect to (i) the prediction of future stock prices? (ii) risk-neutral pricing of financial derivatives, which depends on the stock price?</p>
+<p>2.8 Argue that the MLEs of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> are asymptotic normally distributed. Furthermore, explain why it is convinient to have an idea of the distribution of ones estimators.</p>
+<p>2.9 Imagine the hypothetical situation that our estimated GMB for the stock price fitted the oberseved prices perfectly. Would this enable us to conclude that our model was perfect? Hint: recall that we model the stock price as a stochastic process. Hence the observed prices are simply one realization of this process.</p>
+<p><span class="math inline">\(~\)</span></p>
 </div>
 <div id="monte-carlo-simulation" class="section level1">
-<h1><span class="header-section-number">3</span> MOnte Carlo Simulation</h1>
+<h1><span class="header-section-number">3</span> Monte Carlo Simulation</h1>
+<p><span class="math inline">\(~\)</span></p>
+<p>…</p>
+<p><span class="math inline">\(~\)</span></p>
 </div>
-<div id="exercises-2" class="section level1 unnumbered">
+<div id="exercises" class="section level1 unnumbered">
 <h1>Exercises</h1>
+<p><span class="math inline">\(~\)</span></p>
+<p>In continuation of 2.8 show, using simulations, that the MLEs of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> from section <a href="#sec:GBM">2</a> do in fact seem to be asymptotic normally distributed. Furthermore,</p>
 </div>
 
 
