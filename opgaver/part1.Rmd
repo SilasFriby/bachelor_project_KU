@@ -1,0 +1,112 @@
+---
+title: "Part 1: Model Assumptions, Geometric brownian Motions and Monte Carlo Simulation"
+author: "Silas Furu Friby"
+date: "17 feb 2018"
+output: bookdown::html_document2
+---
+
+<!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   TeX: { equationNumbers: { autoNumber: "AMS" } } -->
+<!-- }); -->
+<!-- </script> -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# Model Assumptions
+
+$~$
+
+We consider a financial market, where the uncertainty is summarized by the filltered probability space $(\Omega, \mathcal{F}, \{\mathcal{F}_t\}_{t \geq 0}, P)$ carrying a Wiener process $(W(t))_{t \geq 0}$. Here $\Omega$ denotes the state space, $\mathcal{F}$ is a $\sigma$-algebra representing measurable events, $\{\mathcal{F}_t\}_{t \geq 0}$ denotes a filtration, which we may think of as a 
+flow of information, and at last $P$ denotes a probability measure. We may think of the probability measure $P$ as the real-world
+measure. Our only source of uncertainty originates from the Wiener process and we therefore assume that the filtration is defined by
+
+\begin{equation}
+\mathcal{F}_t = \mathcal{F}^W_t \qquad \text{for} \qquad t \geq 0 
+(\#eq:filtration)
+\end{equation}
+
+where $\mathcal{F}^W_t$ is the natural filtration of the Wiener process, i.e. 
+
+\begin{equation}
+\mathcal{F}^W_t = \sigma \{ W(s) : 0 \leq s \leq t \}
+(\#eq:sigma)
+\end{equation}
+
+All functions in this project are defined with respect to such a filtered probability space and they are
+assumed to be sufficiently well-behaved. By this we mean that they posses the continuity, differentiability,
+integrability, etc. needed in the situation at hand.
+
+We assume that the market consists of two assets: a risk-free asset with price proces $B$, and a risky asset with price proces $S$. The $P$-dynamics are given by
+
+\begin{equation} 
+\begin{split}
+dB(t) &= r B(t) dt \\
+dS(t) &= \mu S(t) dt + \sigma S(t) dW(t)
+\end{split}
+(\#eq:p-dynamics)
+\end{equation}
+
+where $r$, $\mu$ and $\sigma$ are real constants. We may think of the risk-free asset as a bank account with a short rate of interest $r$, and the risky asset as a stock.
+
+We assume that the market is free of arbitrage and complete, which implies the existence of a unique equivalent martingale measure, which we denote by $Q$. Furthermore it can be shown that the $Q$- dynamics of the stock price is given by
+
+\begin{equation}
+dS(t) = r S(t) dt + \sigma S(t) dW^Q(t)
+(\#eq:q-dynamics)
+\end{equation}
+
+where $W^Q$ is a Wiener process under $Q$.
+
+Consider a financial derivative with fixed maturity, $T$, which pays the amount $g(S(T))$ at time $T$. It then follows from the above assumptions that the arbitrage-free price at time $t$, $\Pi(t)$ of this financial derivative is given by
+
+\begin{equation}
+\begin{split}
+\Pi(t) &= E^Q\left[ e^{-\int_t^T r du} g(S(T)) \; \big| \; \mathcal{F}_t \right] \\
+&= e^{-r (T - t)} E^Q \left[ g(S(T)) \; \big| \; S(t) = s \right]
+\end{split}
+(\#eq:risk-neutral)
+\end{equation}
+
+where $E^Q$ denotes the expectation under the measure $Q$. Equation \@ref(eq:risk-neutral) is often called a *risk-neutral* pricing equation. 
+
+$~$
+
+# Exercises {-}
+
+The above all sounds quite fancy. However, it does not contain much value unless we understand what it means. Hence, the main intention of the questions below are to create an intuitive understanding of the above. Furthermore, we wish to asses the meaningfullness of the assumptions in regards to the real world which we attempt to model.  
+
+1.1 Give an intuitive interretation of the above assumptions. For example: what is the intuition behind equation \@ref(eq:filtration), \@ref(eq:sigma) and \@ref(eq:p-dynamics)?
+
+_1.2 Discuss the meaningfullness of the assumptions in regards to the real world which we attempt to model. For example: is it reasonable to assume that the stock price is continuous? Furthermore, explain the what we mean by a arbitrage-free and complete market. Are these assumptions reasonable? You may also start a discussion of reality versus tractability in mathmatical finance modelling.    
+
+1.3 What underlying assumptions imply the second equality sign of equation \@ref(eq:risk-neutral)?
+
+1.4 Give an intuitive interpretation of the risk-neutral pricing equation \@ref(eq:risk-neutral). Include an explanation of why arbitrage-free prices are not expectations under the real world measure $P$. Hint: how much would you pay (today) for a simple contract with the payoff 100 dkr. or 0 dkr. (tomorrow) each outcome with a probability of $50\%$ under $P$? It depends on whether you are risk averse or risk loving.  
+
+1.5 In the financial world (i.e. at banks, mortgage-banks and pension funds) risk-neutral pricing is the dominating paradigme. Explain why risk-neutral pricing is "smart". Hint: think of market prices as an expression of a collective risk profile.
+
+1.6 Consider the following statements about the arbitrage-free price at time $t$ of some future cash flow
+* the arbitrage-free price at time $t$ equals the discounted cash flow
+* the arbitrage-free price at time $t$ equals the discounted expected cash flow conditioned on the market information at time $t$ under $Q$
+* the arbitrage-free price at time $t$ equals the expected discounted cash flow conditioned on the market information at time $t$ under $P$
+* the arbitrage-free price at time $t$ equals the expected discounted cash flow conditioned on the market information at time $t$ under $Q$
+
+Under what assumptions are the above statements true/false?
+
+
+
+
+# Geometric Brownian Motion
+
+# Exercises {-}
+
+# MOnte Carlo Simulation
+
+# Exercises {-}
+
+

@@ -1,5 +1,5 @@
 ---
-title: "Udkast til bachelor projekt"
+title: "Simulating Reality"
 author: "Silas Furu Friby"
 date: "21 okt 2017"
 output: html_document
@@ -9,8 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-## Grundlæggende intuition og forståelse
 
 ### Lidt filosofi og formål
 
