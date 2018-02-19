@@ -5,19 +5,13 @@ date: "17 feb 2018"
 output: bookdown::html_document2
 ---
 
-<!-- <script type="text/x-mathjax-config"> -->
-<!-- MathJax.Hub.Config({ -->
-<!--   TeX: { equationNumbers: { autoNumber: "AMS" } } -->
-<!-- }); -->
-<!-- </script> -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-
-# Model Assumptions {#sec:model-assumptions}
+# Introduction {#sec:intro}
 
 $~$
 
@@ -41,7 +35,7 @@ All functions in this project are defined with respect to such a filtered probab
 assumed to be sufficiently well-behaved. By this we mean that they posses the continuity, differentiability,
 integrability, etc. needed in the situation at hand.
 
-We assume that the market consists of two assets: a risk-free asset with price proces $B$, and a risky asset with price proces $S$. The $P$-dynamics are given by
+We assume that the market consists of two assets: a risk-free asset with price proces $B$, and a risky asset with price proces $S$. The dynamics under $P$ are given by
 
 \begin{equation} 
 \begin{split}
@@ -51,9 +45,16 @@ dS(t) &= \mu S(t) dt + \sigma S(t) dW(t)
 (\#eq:p-dynamics)
 \end{equation}
 
-where $r, \mu \in \mathbb{R}$  and $\sigma \in \mathbb{R}_{+}$ are constant. We may think of the risk-free asset as a bank account with a short rate of interest $r$, and the risky asset as a stock.
+where $r, \mu \in \mathbb{R}$  and $\sigma \in \mathbb{R}_{+}$ are constant. We may think of the risk-free asset as a bank account with a short rate of interest $r$, and the risky asset as a stock with drift $\mu$ and volatility $\sigma$. 
 
-We assume that the market is free of arbitrage and complete, which implies the existence of a unique equivalent martingale measure, which we denote by $Q$. Furthermore it can be shown that the $Q$- dynamics of the stock price is given by
+A stochastic process with dynamics such as $S$ is called a Geometric Brownian Motion (GBM) and it can be shown that
+
+\begin{equation}
+S(t) = S(0) \cdot e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W(t)}
+(\#eq:GBM)
+\end{equation}
+
+We assume that the market is free of arbitrage and complete, which implies the existence of a unique equivalent martingale measure, which we denote by $Q$. Furthermore, it follows that the dynamics of the stock price under $Q$ is given by
 
 \begin{equation}
 dS(t) = r S(t) dt + \sigma S(t) dW^Q(t)
@@ -62,11 +63,11 @@ dS(t) = r S(t) dt + \sigma S(t) dW^Q(t)
 
 where $W^Q$ is a Wiener process under $Q$.
 
-Consider a financial derivative with fixed maturity, $T$, which pays the amount $g(S(T))$ at time $T$. It then follows from the above assumptions that the arbitrage-free price at time $t$, $\Pi(t)$ of this financial derivative is given by
+Consider a financial derivative with a fixed maturity $T$, which pays the amount $g(S(T))$ at maturity. It then follows from the above assumptions that the arbitrage-free price at time $t$, $\Pi(t)$, of such a financial derivative is given by
 
 \begin{equation}
 \begin{split}
-\Pi(t) &= E^Q\left[ e^{-\int_t^T r du} g(S(T)) \; \big| \; \mathcal{F}_t \right] \\
+\Pi(t) &= E^Q\left[ e^{-\int_t^T \; r \; du} g(S(T)) \; \big| \; \mathcal{F}_t \right] \\
 &= e^{-r (T - t)} E^Q \left[ g(S(T)) \; \big| \; S(t) = s \right]
 \end{split}
 (\#eq:risk-neutral)
@@ -74,29 +75,37 @@ Consider a financial derivative with fixed maturity, $T$, which pays the amount 
 
 where $E^Q$ denotes the expectation under the measure $Q$. Equation \@ref(eq:risk-neutral) is often called a *risk-neutral* pricing equation. 
 
-$~$
-
-# Exercises: Model Assumptions {-}
 
 $~$
 
-The above all sounds quite fancy. However, it does not contain much value unless we understand what it means. Hence, the main intention of the questions below are to create an intuitive understanding of the above. Furthermore, we wish to asses the meaningfullness of the assumptions in regards to the real world which we attempt to model.  
+# Model Assumptions {#sec:model-assumptions}
 
-1.1 Give an intuitive interretation of the above assumptions. For example: what is the intuition behind equation \@ref(eq:filtration), \@ref(eq:sigma) and \@ref(eq:p-dynamics)?
+$~$
 
-1.2 Discuss the meaningfullness of the assumptions in regards to the real world which we attempt to model. For example: is it reasonable to assume that the stock price is continuous? Furthermore, explain the what we mean by a arbitrage-free and complete market. Are these assumptions reasonable? You may also start a discussion of reality versus tractability in mathmatical finance modelling.    
+The above all sounds quite fancy. However, it does not contain much value unless we understand what it means. Hence, the main intention of the questions below are to create an intuitive understanding of the above. Furthermore, we wish to asses the meaningfullness of the assumptions in regards to the real world which we attempt to model.
 
-1.3 What underlying assumptions imply the second equality sign of equation \@ref(eq:risk-neutral)?
+$~$
 
-1.4 Give an intuitive interpretation of the risk-neutral pricing equation \@ref(eq:risk-neutral). Include an explanation of why arbitrage-free prices are not expectations under the real world measure $P$. Hint: how much would you pay (today) for a simple contract with the payoff 100 dkr. or 0 dkr. (tomorrow) each outcome with a probability of $50\%$ under $P$? It depends on whether you are risk averse or risk loving.  
+## Questions: Model Assumptions {-}
 
-1.5 In the financial world (i.e. at banks, mortgage-banks and pension funds) risk-neutral pricing is the dominating paradigme. Explain why risk-neutral pricing is "smart". Hint: think of market prices as an expression of a collective risk profile.
+$~$
 
-1.6 Consider the following statements about the arbitrage-free price at time $t$ of some future cash flow
-* the arbitrage-free price at time $t$ equals the discounted cash flow
-* the arbitrage-free price at time $t$ equals the discounted expected cash flow conditioned on the market information at time $t$ under $Q$
-* the arbitrage-free price at time $t$ equals the expected discounted cash flow conditioned on the market information at time $t$ under $P$
-* the arbitrage-free price at time $t$ equals the expected discounted cash flow conditioned on the market information at time $t$ under $Q$
+2.1 Give an intuitive interpretation of the above assumptions. For example: what is the intuition behind equation \@ref(eq:filtration), \@ref(eq:sigma) and \@ref(eq:p-dynamics)?
+
+2.2 Discuss the meaningfullness of the assumptions in regards to the real world, which we attempt to model. For example: is it reasonable to assume that the stock price is positive and continuous? Furthermore, explain what we mean by an arbitrage-free and complete market. Are these assumptions reasonable? This could lead to a small discussion on reality versus tractability in mathmatical modelling.    
+
+2.3 What underlying assumptions imply the second equality sign in equation \@ref(eq:risk-neutral)?
+
+2.4 Give an intuitive interpretation of the risk-neutral pricing equation \@ref(eq:risk-neutral). Include an explanation of why arbitrage-free prices are not expectations under the real world measure $P$. Hint: Consider a simple contract with the payoff 100 dkr. or 0 dkr. (today) each outcome with a probability of $50\%$ under $P$. What is the expected payoff under $P$? How much would you pay? It depends on whether you are risk averse, risk neutral or risk loving.  
+
+2.5 In the financial world risk-neutral pricing is the dominating paradigme. Explain why risk-neutral pricing is "smart". Hint: think of market prices as an expression of a collective risk profile (in other words the measure $Q$ is determined by the market).
+
+2.6 Consider the following statements about the arbitrage-free price at time $t$ of some future cash flow
+
+(i) the arbitrage-free price at time $t$ equals the discounted cash flow
+(ii) the arbitrage-free price at time $t$ equals the discounted expected cash flow conditioned on the market information at time $t$ under $Q$
+(iii) the arbitrage-free price at time $t$ equals the expected discounted cash flow conditioned on the market information at time $t$ under $P$
+(iv) the arbitrage-free price at time $t$ equals the expected discounted cash flow conditioned on the market information at time $t$ under $Q$
 
 Under what assumptions are the above statements true/false?
 
@@ -107,38 +116,51 @@ $~$
 
 $~$
 
-In section \@ref(sec:model-assumptions) we assume that the stock price follows a Geometric Brownian Motion (GBM), cf. the dynamics for the stock price in equation \@ref(eq:p-dynamics). Assuming that the inital value of the stock price is given by $S(0) = s$ it can be shown that
+The questions below aim to illustrate some of the tractable results regarding GBMs. Also, we shall attempt to fit the stock price model, given by the second equation in \@ref(eq:p-dynamics), to the observed prices $\tilde{S}_{t_0}, \tilde{S}{t_1},..., \tilde{S}{t_m}$. We assume that the observations are equidistant, meaning that
+
+
+$$
+t_i - t_{i-1} = \Delta t
+$$
+for all $i = 1,...m$. In other words we assume that the time interval between all oberservations are equal.
+
+In order estimate the stock price model based on observation we (formally) need to specify a statistical model. By a parameterized statistical model we think of sample space $\mathcal{S}$ and a set of distributions $\mathcal{P}$, where 
 
 \begin{equation}
-S(t) = s \cdot e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W(t)}
-(\#eq:GBM)
+\mathcal{P} = \{P_{\theta} : \theta \in \Theta \}
 \end{equation}
 
-The parameters $\mu$ and $\sigma$ are often called the drift and volatility, respectively.
+Here the parameter set $\Theta$ is an open subset of $\mathbb{R}$. Our stock price model contains the parameters $\mu$ and $\sigma$.
 
-.. write something about a statictical model and the distribution of MLEs
 
-# Exercises: Geometric Brownian Motion {-}
+$~$
 
-2.1 How may we interpret the drift and volatility parameters? For example: how does the sign of the drift and the size of the volatility influence the evolution of the stock price over time?
+## Questions: Geometric Brownian Motion {-}
 
-2.2 Derive the stock price distribution under $P$. Furthermore, show what distribution the log-return $\log(S(t)/S(t-1))$ follows?
+$~$
 
-Download observed prices for the stock index S&P 100. This can for example be down by using the $\texttt{R}$ package $\texttt{quantmod}$. 
+3.1 Give a (brief) intuitive explanation of the difference between the probability model $(\Omega, \mathcal{F}, \{\mathcal{F}_t\}_{t \geq 0}, P)$ and the statistical model $(\mathcal{S}, \mathcal{P})$.
 
-2.3 Perform an analysis, based on the observed prices, which investigates whether or not a GBM model for the stock index price seems to be a reasonable model. 
+3.2 How may we interpret the drift and volatility parameters? For example: how does the sign of the drift and the size of the volatility influence the evolution of the stock price over time?
 
-2.4 Derive closed-form expressions for the maximum likelihood estimators, $\hat{\mu}$ and $\hat{\sigma}$, of $\mu$ and $\sigma$.
+3.3 Derive the stock price distribution under $P$. Furthermore, derive the distribution of the log-return $\log(S(t)/S(t-1))$ Hint: use equation \@ref(eq:GBM) and the assumption of equidistant observations.
 
-2.5 Compute $\hat{\mu}$ and $\hat{\sigma}$ based on observed stock index prices. Perform a sanity check by estimating the parameters using both numerical and analytical methods. Repeat the estimation process twice: (i) using all observations and (ii) using only observations after year 2010. 
+3.4 Download observed prices for the stock index S&P 100. This can for example be down by using the $\texttt{R}$ package $\texttt{quantmod}$. 
 
-2.6 How do the estimates from (i) and (ii) differ from each other? Is this what we would expect based on the observation periods?
+3.5 Perform an analysis, based on the observed prices, which investigates whether or not a GBM model for the stock index price seems to be a reasonable. 
 
-2.7 Derive closed-form expressions for the variance of $\hat{\mu}$ and $\hat{\sigma}$. Should we be worried about the variance of $\mu$ in respect to (i) the prediction of future stock prices? (ii) risk-neutral pricing of financial derivatives, which depends on the stock price?
+3.6 Derive closed-form expressions for the maximum likelihood estimators (MLE), $\hat{\mu}$ and $\hat{\sigma}$, of $\mu$ and $\sigma$. Hint: You may avoid some trivial math by following the points below 
+  
+  (i) Use the distribution of the log-return found in question (3.3) 
+  (ii) Use the parameter transformations $a = (\mu - \frac{1}{2}\sigma^2) \Delta t$ and $b = \sigma^2 \Delta t$. 
+  (iii) Use the known maximum likelihood estimators for the mean and variance of a Normal distribution to find the MLE $\hat{a}$ and $\hat{b}$.
+  (iv) Given $\hat{a}$ and $\hat{b}$ it is straight forward to find $\hat{\mu}$ and $\hat{\sigma}$. 
 
-2.8 Argue that the MLEs of $\mu$ and $\sigma$ are asymptotic normally distributed. Furthermore, explain why it is convinient to have an idea of the distribution of ones estimators.  
+3.7 Compute $\hat{\mu}$ and $\hat{\sigma}$ based on observed prices. Perform a sanity check by estimating the parameters using both numerical and analytical methods (i.e. find $\hat{\mu}$ and $\hat{\sigma}$ using the analytical solutions from question 3.6 and by optimizing the log-likelihood function numerically). Repeat the estimation process twice: (i) using all observations and (ii) using only observations after year 2010. 
 
-2.9 Imagine the hypothetical situation that our estimated GMB for the stock price fitted the oberseved prices perfectly. Would this enable us to conclude that our model was perfect? Hint: recall that we model the stock price as a stochastic process. Hence the observed prices are simply one realization of this process.   
+3.8 How do the estimates, $\hat{\mu}$ and $\hat{\sigma}$, from (i) and (ii) differ from each other? Is this what we would expect based on the observation periods?
+
+3.9 Derive closed-form expressions for the variance of $\hat{\mu}$ and $\hat{\sigma}$. Should we be worried about the variance of $\mu$ in respect to (i) the prediction of future stock prices? (ii) risk-neutral pricing of financial derivatives, which depend on the stock price?
 
 
 
@@ -148,14 +170,94 @@ $~$
 
 $~$
 
-...
+In this section the goal is to become familiar with the idea of Monte Carlo (MC) simulation. To my knowledge there is no formal definition of MC simulation, but the generel idea can be described loosely as follows:
+
+*Assume that we wish to estimate the expectation of some stochastic variable $X$. We may do so by simulating, say $n$, i.i.d samples of $X$ and then set the MC estimator equal to the sample mean.* 
+
+In mathematical finance we are often interested in cases where $X$ is a function of the stock price, $S$. Let $\tilde{S_i} = (\tilde{S}_{1, i}, ..., \tilde{S}_{m, i})$ denote a simulated path of the stock price at time points $t_1, ..., t_m = T$, given an initial stock price $S_0$. We assume that the time points are equidistant such that $t_1 = \Delta t, t_2 = 2\Delta t,..., m\Delta t = T$. According to the above desription of MC simulation, the MC estimator $\hat{\theta}$ for the expectation of $X$ may be found by 
+
+i) Simulating $n$ independent paths $\tilde{S_1}, ..., \tilde{S_n}$. 
+ii) For each path compute $\hat{\theta}_i = X(\tilde{S_i} | S_0)$.
+iii) Finally calculate the MC estimator $\hat{\theta}$ by
+
+\begin{equation}
+\hat{\theta} = \frac{1}{n} \sum_{i = 1}^n \hat{\theta}_i
+(\#eq:MC)
+\end{equation}
+
+Below we present pseudo-code for three simulation methods (A, B and C) of a GBM. We shall examine these methods in the questions below.
+
+**Method A**
+
+$\hat{S}_0$ = 100
+
+for i $\in$ $(1, ..., n)$
+\begin{aligned}
+Z &= \mathtt{rnorm}(1, 0, 1) \\
+\Delta S &= \mu \hat{S}_{i-1} \Delta t + \hat{S}_{i-1} \sigma \sqrt{\Delta t}Z \\
+\hat{S}_i &= \hat{S}_{i-1} + \Delta S,
+\end{aligned}
+
+**Method B**
+
+$\hat{S}_0$ = 100
+
+for i $\in$ $(1, ..., n)$
+\begin{aligned}
+Z &= \mathtt{rnorm}(1, 0, 1) \\
+\hat{S}_t &= \hat{S}_{i-1} \exp((\mu - 0.5 \sigma ^ 2) \Delta t + \sigma \sqrt{\Delta t}Z),
+\end{aligned}
+
+
+**Metode C**
+
+$\hat{S}_0$ = 100
+
+for i $\in$ $(1, ..., n)$
+\begin{aligned}
+Z &= \mathtt{rnorm}(1, 0, 1) \\
+\hat{S}_i &= \hat{S}_0 \exp((\mu - 0.5 \sigma ^ 2) t_i + \sigma \sqrt{t} Z),
+\end{aligned}
 
 $~$
 
-# Exercises {-}
+## Questions: Monte Carlo Simulation  {-}
 
 $~$
 
-In continuation of 2.8 show, using simulations, that the MLEs of $\mu$ and $\sigma$ from section \@ref(sec:GBM) do in fact seem to be asymptotic normally distributed. Furthermore,  
+4.1 Explain why Monte Carlo simulation is a useful tool in mathematic finance. Hint: how do we represent arbitrage-free prices?
+
+4.2 Describe what we mean by the terms sampling error and discretization error.
+
+4.3 Argue that the following is true for the MC estimator given by equation \@ref(eq:MC) where $n$ is the number of simulated paths:
+  
+  i) the variance of the MC estimator is approximately proportional til $n^{-1}$, 
+  ii) the error of the MC estimator is approximately proportional to $n^{-1/2}$
+
+4.4 Are the methods (A and B) correct or wrong? Explain. Compare the two methods using $\Delta t = 1$, $\Delta t = \frac{1}{10}$ and $\Delta t = \frac{1}{100}$. Explain what you see. 
+
+4.5 Is method C correct or wrong? Explain.
+
+4.6 Let $S(0) = 100, \mu = 0.03, \sigma = 0.1$. Write $\mathtt{R}$ code, which simulates and plots 10 realizations of $S$ under $P$. Is it possible for a simulation path to become negative? If so is that then consistent with our model assumptions and with observed stock prices? 
+
+4.7 Show, using simulations, that the MLEs of $\mu$ and $\sigma$ from section \@ref(sec:GBM) seem to be asymptotic normally distributed. Hint: assume that $\hat{\mu}$ and $\hat{\sigma}$ are the "true" parameter values and use them in your simulation scheme.  
+
+4.8 Variance reduction techniques: why are we interested in variance reduction? Describe the intuition behind the variance reduction methods antithetic variates and control variates.
+
+4.9 Recreate figure 3.3, 3.4, 3.5 and 3.6 in the book *Tools for Computational Finance*.
+
+$~$
+
+# Option pricing using MC Simulation
+
+$~$
+
+Next up: 
+
+* Pricing of European and Asian options using MC simulation. 
+* Investigate the relationship between European and Asian options. 
+* Comepare MC prices of European Options with closed-form prices and observed market prices.
+* Compute implicit volatilites and discuss these in comparison with the historic volatility estimated in section \@ref(sec:GBM)
+
 
 

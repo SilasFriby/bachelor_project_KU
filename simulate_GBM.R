@@ -111,30 +111,33 @@ price_asian_call <- exp(-r * end_time) * mean(pmax(colMeans(x) - K, 0))
 # 
 # 
 # 
-# # ## does the simulation method matter? YES! x_closed_form is wrong because W(t_i) and W(t_{i-1}) are not independent. But in the simulation scheme below we assume independence through the independent normal rv's, and hence the resulting path for x_closed_form is incorrect 
-# # 
-# # n  <- 1    # monte carlo simulation paths 
-# # end_time  <- 10
-# # dt <- 1 / 12
-# # time_vector <- seq(0, end_time, by = dt)
-# # m  <- length(time_vector)     
-# # 
-# # x_closed_form <- x_increment <- x_closed_form_increment <- matrix(NA, m, n)
-# # x_closed_form[1, ] <- x_increment[1, ] <- x_closed_form_increment[1, ] <- x0
-# # 
-# # for (k in 1:n) {
-# #   for (i in 2:m) {
-# #     Z <- rnorm(1,0,1)
-# #     dx <- mu * x_increment[i - 1, k] * dt + x_increment[i - 1, k] * sigma * sqrt(dt) * Z
-# #     x_increment[i, k] <- x_increment[i - 1, k] + dx
-# #     x_closed_form[i, k] <- x0 * exp((mu - 0.5 * sigma ^ 2) * time_vector[i] + sigma * sqrt(time_vector[i]) * rnorm(1, 0, 1))
-# #     x_closed_form_increment[i, k] <- x_closed_form_increment[i - 1, k] * exp((mu - 0.5 * sigma ^ 2) * dt + sigma * sqrt(dt) * Z)
-# #   }
-# # }
-# # 
-# # plot(time_vector, x_closed_form[, 1], type = 'l')
-# # points(time_vector, x_increment[, 1], type = 'l', col = 'red')
-# # points(time_vector, x_closed_form_increment[, 1], type = 'l', col = 'blue')
+## does the simulation method matter? YES! x_closed_form is wrong because W(t_i) and W(t_{i-1}) are not independent. But in the simulation scheme below we assume independence through the independent normal rv's, and hence the resulting path for x_closed_form is incorrect
+
+n  <- 1    # monte carlo simulation paths
+end_time  <- 10
+dt <- 1 / 12
+time_vector <- seq(0, end_time, by = dt)
+m  <- length(time_vector)
+x0 <- 100
+mu <- 0.01
+sigma <- 0.1
+
+x_closed_form <- x_increment <- x_closed_form_increment <- matrix(NA, m, n)
+x_closed_form[1, ] <- x_increment[1, ] <- x_closed_form_increment[1, ] <- x0
+
+for (k in 1:n) {
+  for (i in 2:m) {
+    Z <- rnorm(1,0,1)
+    dx <- mu * x_increment[i - 1, k] * dt + x_increment[i - 1, k] * sigma * sqrt(dt) * Z
+    x_increment[i, k] <- x_increment[i - 1, k] + dx
+    x_closed_form[i, k] <- x0 * exp((mu - 0.5 * sigma ^ 2) * time_vector[i] + sigma * sqrt(time_vector[i]) * rnorm(1, 0, 1))
+    x_closed_form_increment[i, k] <- x_closed_form_increment[i - 1, k] * exp((mu - 0.5 * sigma ^ 2) * dt + sigma * sqrt(dt) * Z)
+  }
+}
+
+plot(time_vector, x_closed_form[, 1], type = 'l')
+points(time_vector, x_increment[, 1], type = 'l', col = 'red')
+points(time_vector, x_closed_form_increment[, 1], type = 'l', col = 'blue')
 # # 
 # # 
 # # ## testing black-scholes formula for call option
