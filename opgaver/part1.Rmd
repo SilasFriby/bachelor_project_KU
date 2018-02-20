@@ -1,5 +1,5 @@
 ---
-title: "Part 1: Model Assumptions, Geometric brownian Motions and Monte Carlo Simulation"
+title: "Part 1: Model Assumptions, Geometric Brownian Motions and Monte Carlo Simulation"
 author: "Silas Furu Friby"
 date: "17 feb 2018"
 output: bookdown::html_document2
@@ -10,6 +10,8 @@ output: bookdown::html_document2
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+$~$
 
 # Introduction {#sec:intro}
 
@@ -116,7 +118,7 @@ $~$
 
 $~$
 
-The questions below aim to illustrate some of the tractable results regarding GBMs. Also, we shall attempt to fit the stock price model, given by the second equation in \@ref(eq:p-dynamics), to the observed prices $\tilde{S}_{t_0}, \tilde{S}{t_1},..., \tilde{S}{t_m}$. We assume that the observations are equidistant, meaning that
+The questions below aim to illustrate some of the tractable results regarding GBMs. Also, we shall attempt to fit the stock price model, given by the second equation in \@ref(eq:p-dynamics), to observed prices $\tilde{S}_{t_0}, \tilde{S}_{t_1},..., \tilde{S}_{t_m}$. We assume that the observations are equidistant, meaning that
 
 
 $$
@@ -143,24 +145,26 @@ $~$
 
 3.2 How may we interpret the drift and volatility parameters? For example: how does the sign of the drift and the size of the volatility influence the evolution of the stock price over time?
 
-3.3 Derive the stock price distribution under $P$. Furthermore, derive the distribution of the log-return $\log(S(t)/S(t-1))$ Hint: use equation \@ref(eq:GBM) and the assumption of equidistant observations.
+3.3 Derive equation \@ref(eq:GBM). Hint: Consider the stochactic process $Y(t) = \log(S(t))$ and use Itó's formula (see Lemma 1.17 in the book *Tools for Computational Finance*).
 
-3.4 Download observed prices for the stock index S&P 100. This can for example be down by using the $\texttt{R}$ package $\texttt{quantmod}$. 
+3.4 Derive the stock price distribution under $P$. Furthermore, derive the distribution of the log-return $\log(S(t)/S(t-1))$ Hint: use equation \@ref(eq:GBM) and the assumption of equidistant observations.
 
-3.5 Perform an analysis, based on the observed prices, which investigates whether or not a GBM model for the stock index price seems to be a reasonable. 
+3.5 Download observed prices for the stock index S&P 100. This can for example be down by using the $\texttt{R}$ package $\texttt{quantmod}$. 
 
-3.6 Derive closed-form expressions for the maximum likelihood estimators (MLE), $\hat{\mu}$ and $\hat{\sigma}$, of $\mu$ and $\sigma$. Hint: You may avoid some trivial math by following the points below 
+3.6 Perform an analysis, based on the observed prices, which investigates whether or not a GBM model for the stock index price seems to be reasonable. 
+
+3.7 Derive closed-form expressions for the maximum likelihood estimators (MLE), $\hat{\mu}$ and $\hat{\sigma}$, of $\mu$ and $\sigma$. Hint: You may avoid some trivial math by following the points below 
   
-  (i) Use the distribution of the log-return found in question (3.3) 
+  (i) Use the distribution of the log-return found in question 3.4. 
   (ii) Use the parameter transformations $a = (\mu - \frac{1}{2}\sigma^2) \Delta t$ and $b = \sigma^2 \Delta t$. 
   (iii) Use the known maximum likelihood estimators for the mean and variance of a Normal distribution to find the MLE $\hat{a}$ and $\hat{b}$.
   (iv) Given $\hat{a}$ and $\hat{b}$ it is straight forward to find $\hat{\mu}$ and $\hat{\sigma}$. 
 
-3.7 Compute $\hat{\mu}$ and $\hat{\sigma}$ based on observed prices. Perform a sanity check by estimating the parameters using both numerical and analytical methods (i.e. find $\hat{\mu}$ and $\hat{\sigma}$ using the analytical solutions from question 3.6 and by optimizing the log-likelihood function numerically). Repeat the estimation process twice: (i) using all observations and (ii) using only observations after year 2010. 
+3.8 Compute $\hat{\mu}$ and $\hat{\sigma}$ based on observed prices. Perform a sanity check by estimating the parameters using both numerical and analytical methods (i.e. find $\hat{\mu}$ and $\hat{\sigma}$ using the analytical solutions from question 3.7 and by optimizing the log-likelihood function numerically). Repeat the estimation process twice: (i) using all observations and (ii) using only observations after year 2010. 
 
-3.8 How do the estimates, $\hat{\mu}$ and $\hat{\sigma}$, from (i) and (ii) differ from each other? Is this what we would expect based on the observation periods?
+3.9 How do the estimates, $\hat{\mu}$ and $\hat{\sigma}$, from (i) and (ii) differ from each other? Is this what we would expect based on the observation periods?
 
-3.9 Derive closed-form expressions for the variance of $\hat{\mu}$ and $\hat{\sigma}$. Should we be worried about the variance of $\mu$ in respect to (i) the prediction of future stock prices? (ii) risk-neutral pricing of financial derivatives, which depend on the stock price?
+3.10 Derive closed-form expressions for the variance of $\hat{\mu}$ and $\hat{\sigma}$. Should we be worried about the variance of $\mu$ in respect to (i) the prediction of future stock prices? (ii) risk-neutral pricing of financial derivatives, which depend on the stock price?
 
 
 
@@ -225,7 +229,7 @@ $~$
 
 $~$
 
-4.1 Explain why Monte Carlo simulation is a useful tool in mathematic finance. Hint: how do we represent arbitrage-free prices?
+4.1 Explain why Monte Carlo simulation is a useful tool in mathematical finance. Hint: how do we represent arbitrage-free prices?
 
 4.2 Describe what we mean by the terms sampling error and discretization error.
 
@@ -242,7 +246,7 @@ $~$
 
 4.7 Show, using simulations, that the MLEs of $\mu$ and $\sigma$ from section \@ref(sec:GBM) seem to be asymptotic normally distributed. Hint: assume that $\hat{\mu}$ and $\hat{\sigma}$ are the "true" parameter values and use them in your simulation scheme.  
 
-4.8 Variance reduction techniques: why are we interested in variance reduction? Describe the intuition behind the variance reduction methods antithetic variates and control variates.
+4.8 Variance reduction techniques: why are we interested in variance reduction in respect to MC simulation? Describe the intuition behind the variance reduction methods antithetic variates and control variates.
 
 4.9 Recreate figure 3.3, 3.4, 3.5 and 3.6 in the book *Tools for Computational Finance*.
 
@@ -256,8 +260,8 @@ Next up:
 
 * Pricing of European and Asian options using MC simulation. 
 * Investigate the relationship between European and Asian options. 
-* Comepare MC prices of European Options with closed-form prices and observed market prices.
+* Compare MC prices of European Options with closed-form prices and observed market prices.
 * Compute implicit volatilites and discuss these in comparison with the historic volatility estimated in section \@ref(sec:GBM)
 
-
+$~$
 
